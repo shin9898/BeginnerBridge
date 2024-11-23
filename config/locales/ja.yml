@@ -1,0 +1,29 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            username:
+              blank: "ユーザー名を入力してください"
+              taken: "このユーザー名はすでに使用されています"
+              invalid: "ユーザー名は漢字、ひらがな、英数字（組み合わせでも単体でも可）で入力してください"
+            email:
+              blank: "メールアドレスを入力してください"
+              taken: "このメールアドレスはすでに使用されています"
+              invalid: "メールアドレスが無効です"
+            password:
+              blank: "パスワードを入力してください"
+              too_short: "パスワードは最低8文字以上で、半角英数字を使用してください"
+            password_confirmation:
+              blank: "確認用パスワードを入力してください"
+              confirmation: "パスワードと確認用パスワードが一致しません"
+            experience_category:
+              blank: "経験カテゴリを選択してください"
+              inclusion: "無効なカテゴリです"
+            affiliation:
+              too_long: "所属は100文字以内で入力してください"
+            site_url:
+              invalid: "無効なURLです"
+            bio:
+              too_long: "自己紹介は500文字以内で入力してください"
