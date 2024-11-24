@@ -20,6 +20,9 @@ class User < ApplicationRecord
   # ユーザー名とメールアドレスの一意性
   validates_uniqueness_of :email, :username
 
+  # アソシエーション
+  has_many :posts
+
   # パスワードのバリデーションが必要かどうかを判定するメソッド
   private
 
