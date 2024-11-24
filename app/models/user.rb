@@ -6,7 +6,7 @@ class User < ApplicationRecord
   # Deviseのバリデーション
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP, message: "メールアドレスが無効です" }
   validates :username, presence: true, uniqueness: true, length: { in: 3..15 }, format: { with: /\A[ぁ-んァ-ン一-龯a-zA-Z0-9]+\z/, message: "ユーザー名は漢字、ひらがな、英数字（組み合わせでも単体でも可）で入力してください" }
-  validates :experience_category, presence: true, inclusion: { in: ['未経験者', '経験者'], message: "%{value} は無効なカテゴリです" }
+  validates :user_experience_id, numericality: { other_than: 1, message: "無効なカテゴリです"}
 
   # パスワードと確認用パスワードのバリデーション
   validates :password, presence: true, length: { minimum: 8 }, format: { with: /\A[a-zA-Z0-9]+\z/, message: "パスワードは半角英数字で8文字以上にしてください" }, confirmation: { case_sensitive: true }
