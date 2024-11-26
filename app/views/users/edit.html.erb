@@ -1,6 +1,6 @@
 <h1>ユーザー情報編集</h1>
 
-<%= form_with(model: @user, method: :patch, local: true) do |f| %>
+<%= form_with(model: @user, local: true) do |f| %>
   <div>
     <%= f.label :username, "ユーザー名" %>
     <%= f.text_field :username, required: true %>
@@ -8,6 +8,10 @@
   <div>
     <%= f.label :email, "メールアドレス" %>
     <%= f.email_field :email, required: true %>
+  </div>
+  <div>
+  <%= f.label :user_experience_id, "経験" %>
+  <%= f.collection_select :user_experience_id, UserExperience.all, :id, :name, include_blank: "選択してください", required: true %>
   </div>
   <div>
     <%= f.label :affiliation, "所属" %>

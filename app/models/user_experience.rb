@@ -1,4 +1,4 @@
-class Genre < ActiveHash::Base
+class UserExperience < ActiveHash::Base
   self.data = [
     { id: 1, name: '---' },
     { id: 2, name: '未経験者' },

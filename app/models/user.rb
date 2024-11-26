@@ -3,6 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  # アソシエーション
+  has_many :posts
+
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to :user_experience
+
   # Deviseのバリデーション
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP, message: "メールアドレスが無効です" }
   validates :username, presence: true, uniqueness: true, length: { in: 3..15 }, format: { with: /\A[ぁ-んァ-ン一-龯a-zA-Z0-9]+\z/, message: "ユーザー名は漢字、ひらがな、英数字（組み合わせでも単体でも可）で入力してください" }
@@ -19,9 +25,6 @@ class User < ApplicationRecord
 
   # ユーザー名とメールアドレスの一意性
   validates_uniqueness_of :email, :username
-
-  # アソシエーション
-  has_many :posts
 
   # パスワードのバリデーションが必要かどうかを判定するメソッド
   private
