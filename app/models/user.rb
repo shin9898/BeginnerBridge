@@ -15,8 +15,8 @@ class User < ApplicationRecord
   validates :user_experience_id, numericality: { other_than: 1, message: "無効なカテゴリです"}
 
   # パスワードと確認用パスワードのバリデーション
-  validates :password, presence: true, length: { minimum: 8 }, format: { with: /\A[a-zA-Z0-9]+\z/, message: "パスワードは半角英数字で8文字以上にしてください" }, confirmation: { case_sensitive: true }
-  validates :password_confirmation, presence: true, if: :password_required?
+  validates :password, presence: true, length: { minimum: 8 }, format: { with: /\A[a-zA-Z0-9]+\z/, message: "パスワードは半角英数字で8文字以上にしてください" }, confirmation: { case_sensitive: true }, on: :create
+  validates :password_confirmation, presence: true, on: :create
        
   # その他のフィールドに対するバリデーション
   validates :affiliation, length: { maximum: 100 }, allow_blank: true
@@ -25,11 +25,4 @@ class User < ApplicationRecord
 
   # ユーザー名とメールアドレスの一意性
   validates_uniqueness_of :email, :username
-
-  # パスワードのバリデーションが必要かどうかを判定するメソッド
-  private
-
-  def password_required?
-    new_record? || password.present? || password_confirmation.present?
-  end
 end
