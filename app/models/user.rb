@@ -14,7 +14,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { in: 3..15 }, 
                      format: { with: /\A[\p{Hiragana}\p{Katakana}\p{Han}\w]+\z/, 
                                message: "は漢字、ひらがな、カタカナ、英数字（組み合わせでも単体でも可）で入力してください" }
-  validates :user_experience_id, numericality: { other_than: 1, message: "が無効なカテゴリです"}
+  validates :user_experience_id, numericality: { other_than: 1, message: "が無効なカテゴリーです"}
 
   # パスワードと確認用パスワードのバリデーション
   validates :password, presence: true, length: { minimum: 8 },

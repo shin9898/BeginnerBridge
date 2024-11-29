@@ -78,7 +78,7 @@ RSpec.describe User, type: :model do
       it 'user_experience_idが1なら登録できない' do
         @user.user_experience_id = 1
         @user.valid?
-        expect(@user.errors.full_messages).to include('経験レベルカテゴリーが無効なカテゴリです')
+        expect(@user.errors.full_messages).to include('経験レベルカテゴリーが無効なカテゴリーです')
       end
     end
   end
