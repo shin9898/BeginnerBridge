@@ -1,0 +1,44 @@
+<%= render "shared/header" %>
+
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :username, "ユーザーネーム" %><br />
+    <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email, "Eメールアドレス" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_experience_id, "経験レベル" %><br />
+    <%= f.collection_select(:user_experience_id, UserExperience.all, :id, :name, {}, {class:"user_experience-select", id: "user_experience_select"}) %>
+    <p id="experience_description" class="description">
+    選択肢の説明がここに表示されます。
+    </p>
+  </div>
+
+  <div class="field">
+    <%= f.label :password, "パスワード"%>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation, "確認用パスワード" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>

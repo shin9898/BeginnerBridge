@@ -1,0 +1,31 @@
+<h1>ユーザー情報編集</h1>
+
+<%= form_with(model: @user, local: true) do |f| %>
+  <div>
+    <%= f.label :username, "ユーザー名" %>
+    <%= f.text_field :username, required: true %>
+  </div>
+  <div>
+    <%= f.label :email, "メールアドレス" %>
+    <%= f.email_field :email, required: true %>
+  </div>
+  <div>
+  <%= f.label :user_experience_id, "経験" %>
+  <%= f.collection_select :user_experience_id, UserExperience.all, :id, :name, include_blank: "選択してください", required: true %>
+  </div>
+  <div>
+    <%= f.label :affiliation, "所属" %>
+    <%= f.text_field :affiliation %>
+  </div>
+  <div>
+    <%= f.label :site_url, "サイトURL" %>
+    <%= f.url_field :site_url %>
+  </div>
+  <div>
+    <%= f.label :bio, "自己紹介" %>
+    <%= f.text_area :bio %>
+  </div>
+  <div>
+    <%= f.submit "更新する" %>
+  </div>
+<% end %>

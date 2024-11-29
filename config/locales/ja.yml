@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        username: ユーザーネーム
+        user_experience_id: 経験レベルカテゴリー
