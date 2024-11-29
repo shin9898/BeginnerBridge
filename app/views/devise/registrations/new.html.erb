@@ -6,21 +6,25 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :username %><br />
+    <%= f.label :username, "ユーザーネーム" %><br />
     <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
   </div>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email, "Eメールアドレス" %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= f.collection_select(:user_experience_id, UserExperience.all, :id, :name, {}, {class:"user_experience-select"}) %>
+    <%= f.label :user_experience_id, "経験レベル" %><br />
+    <%= f.collection_select(:user_experience_id, UserExperience.all, :id, :name, {}, {class:"user_experience-select", id: "user_experience_select"}) %>
+    <p id="experience_description" class="description">
+    選択肢の説明がここに表示されます。
+    </p>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
+    <%= f.label :password, "パスワード"%>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
@@ -28,7 +32,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation, "確認用パスワード" %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
