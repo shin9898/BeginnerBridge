@@ -11,11 +11,15 @@ class User < ApplicationRecord
 
   # Deviseのバリデーション
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP, message: "が無効です" }
-  validates :username, presence: true, uniqueness: true, length: { in: 3..15 }, format: { with: /\A[ぁ-んァ-ン一-龯a-zA-Z0-9]+\z/, message: "は漢字、ひらがな、英数字（組み合わせでも単体でも可）で入力してください" }
-  validates :user_experience_id, numericality: { other_than: 1, message: "無効なカテゴリです"}
+  validates :username, presence: true, uniqueness: true, length: { in: 3..15 }, 
+                     format: { with: /\A[\p{Hiragana}\p{Katakana}\p{Han}\w]+\z/, 
+                               message: "は漢字、ひらがな、カタカナ、英数字（組み合わせでも単体でも可）で入力してください" }
+  validates :user_experience_id, numericality: { other_than: 1, message: "が無効なカテゴリです"}
 
   # パスワードと確認用パスワードのバリデーション
-  validates :password, presence: true, length: { minimum: 8 }, format: { with: /\A[a-zA-Z0-9]+\z/, message: "は半角英数字で8文字以上にしてください" }, confirmation: { case_sensitive: true }, on: :create
+  validates :password, presence: true, length: { minimum: 8 },
+                     format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+\z/, message: "は半角英数字混合で8文字以上にしてください" },
+                     confirmation: { case_sensitive: true }, on: :create
   validates :password_confirmation, presence: true, on: :create
        
   # その他のフィールドに対するバリデーション
