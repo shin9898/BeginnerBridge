@@ -1,3 +1,98 @@
+# アプリケーション名
+
+BeginnerBridge
+
+# アプリケーション概要
+
+
+
+# URL
+
+
+
+# テスト用アカウント
+
+・Basic 認証 ID：
+・Basic 認証パスワード：
+・メールアドレス：
+・パスワード：
+
+# 利用方法
+
+## 学習開始
+
+
+
+## ユーザー情報・学習記録の確認
+
+
+
+# 開発背景
+
+
+
+# 主なページと機能
+
+
+
+# 実装予定の機能
+
+
+
+# データベース設計
+
+[![Image from Gyazo]
+
+# 画面遷移図
+
+[![Image from Gyazo]
+
+# 開発環境
+
+## フロントエンド
+
+・HTML
+・CSS
+・JavaScript
+
+## バックエンド
+
+・Ruby 3.2.0  
+・Rails 7.0.8.4  
+　　-ActionCable
+
+## インフラ
+
+・Render  
+・AWS(S3)
+
+## テキストエディタ
+
+・VSCode
+
+# ローカルでの動作方法
+
+以下のコマンドを順に実行。  
+% git clone 
+% cd 
+% bundle install
+% rails db:create  
+% rails db:migrate
+
+# 工夫したポイント
+
+## 学習に集中しやすいこと
+
+
+
+## 誰でも気軽に利用しやすいこと
+
+
+
+# 製作時間
+
+
+
 ## Users テーブル
 
 | Column              | Type       | Options                   | 説明                       |
