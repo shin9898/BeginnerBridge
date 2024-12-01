@@ -1,1 +1,37 @@
 <%= render 'shared/header' %>
+
+<div class="index-main">
+  <div class="post-contents">
+    <% @posts.each do |post| %>
+      <!-- 投稿1件分の表示 -->
+      <div class="post-content">
+        <!-- コメント情報 -->
+        <div class="comment">
+          <div class="comment__num">
+            <%# コメント数を動的に表示する予定 %>
+            <%= post.comments&.count || 0 %>
+          </div>
+          <div class="comment__unit">
+            comments
+          </div>
+        </div>
+        <!-- 投稿本文 -->
+        <div class="question">
+          <div class="question-top">
+            <div class="question-top__title">
+              <%= post.title %>
+            </div>
+            <div class="question-top__name">
+              <%= post.user.username %>
+            </div>
+          </div>
+          <div class="question-bottom">
+            <div class="question-bottom__content">
+              <%= post.content.truncate(100) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
