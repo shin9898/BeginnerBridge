@@ -1,44 +1,61 @@
 <%= render "shared/header" %>
 
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :username, "ユーザーネーム" %><br />
-    <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email, "Eメールアドレス" %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :user_experience_id, "経験レベル" %><br />
-    <%= f.collection_select(:user_experience_id, UserExperience.all, :id, :name, {}, {class:"user_experience-select", id: "user_experience_select"}) %>
-    <p id="experience_description" class="description">
-    選択肢の説明がここに表示されます。
+<div class="registration-container">
+  <!-- 左側: Webアプリ紹介文 -->
+  <div class="app-introduction">
+    <div class="logo">
+      <%= image_tag "logo.png", alt: "BeginnerBridgeロゴ" %>
+    </div>
+    <h1 class="welcome-message">BeginnerBridgeへようこそ!!</h1>
+    <p class="description">
+      BeginnerBridgeは、プログラミング初心者が気軽に質問したり、アイデアを共有できる安心のプラットフォームです。<br>
+     「こんなこと聞いてもいいのかな？」という不安を解消し、経験者と楽しく学び合える場を提供します。<br>
+      初めての一歩を、私たちと一緒に踏み出してみませんか？
     </p>
   </div>
 
-  <div class="field">
-    <%= f.label :password, "パスワード"%>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+  <!-- 右側: 新規登録フォーム -->
+  <div class="registration-form">
+    <h2 class="form-title">新規登録</h2>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "確認用パスワード" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "form" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+      <div class="form-group">
+        <%= f.label :username, "ユーザーネーム", class: "form-label" %>
+        <%= f.text_field :username, class: "form-control", placeholder: "例: プログラミング太郎", autofocus: true, autocomplete: "username" %>
+      </div>
 
-<%= render "devise/shared/links" %>
+      <div class="form-group">
+        <%= f.label :email, "Eメールアドレス", class: "form-label" %>
+        <%= f.email_field :email, class: "form-control", placeholder: "例: example@example.com", autocomplete: "email" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :user_experience_id, "経験レベル", class: "form-label" %>
+        <%= f.collection_select(:user_experience_id, UserExperience.all, :id, :name, {}, { class: "form-select", id: "user_experience_select" }) %>
+        <small id="experience_description" class="form-text text-muted">
+          選択肢の説明がここに表示されます。
+        </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password, "パスワード", class: "form-label" %>
+        <%= f.password_field :password, class: "form-control", placeholder: "8文字以上の英数字混合で入力してください", autocomplete: "new-password" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation, "確認用パスワード", class: "form-label" %>
+        <%= f.password_field :password_confirmation, class: "form-control", placeholder: "もう一度入力してください", autocomplete: "new-password" %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "登録する", class: "btn btn-primary btn-block" %>
+      </div>
+    <% end %>
+
+    <div class="form-footer">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

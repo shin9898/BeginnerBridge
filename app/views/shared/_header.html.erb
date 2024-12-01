@@ -1,16 +1,16 @@
-<header>
+<header class="header">
   <nav class="navbar">
     <div class="container">
       <h1 class="navbar-brand">
-        <%= link_to "#", root_path, class: "brand-logo" %>
+        <%= link_to root_path, class: "brand-logo" do %>
+          <%= image_tag("logo.png", alt: "BeginnerBridge") %>
+        <% end %>
       </h1>
       <div class="navbar-items">
         <% if user_signed_in? %>
-          <!-- ログインしている場合、ユーザー名とログアウトリンクを表示 -->
-          <span>こんにちは、<%= link_to current_user.username, user_path(current_user) %>さん</span>
-          <%= link_to 'ログアウト', destroy_user_session_path, data: {turbo_method: :delete}, class: 'btn btn-danger' %>
+          <span class="username">こんにちは、<%= link_to current_user.username, user_path(current_user) %>さん</span>
+          <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: 'btn btn-danger' %>
         <% else %>
-          <!-- 未ログインの場合、ログインリンクを表示 -->
           <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
           <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-secondary' %>
         <% end %>

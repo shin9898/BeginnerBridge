@@ -1,0 +1,67 @@
+/* ヘッダー用スタイル */
+.header {
+  background-color: #343a40;
+  color: #fff;
+  padding: 5px 15px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-items {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.navbar-items a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-items a:hover {
+  background-color: #0056b3;
+  text-decoration: underline;
+}
+
+.username {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.btn {
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.brand-logo img {
+  width: 120px;
+  height: auto;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .navbar-items {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  .navbar-items a {
+    margin: 3px 0;
+  }
+}

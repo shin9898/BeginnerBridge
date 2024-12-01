@@ -1,0 +1,82 @@
+/* 全体コンテナ */
+.registration-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 40px auto;
+  max-width: 1200px;
+}
+
+/* 左側: Webアプリ紹介文 */
+.app-introduction {
+  width: 45%;
+  text-align: center;
+  padding: 20px;
+}
+
+.app-introduction .logo img {
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 30px;
+}
+
+.app-introduction .welcome-message {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.app-introduction .description {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+/* 右側: 新規登録フォーム */
+.registration-form {
+  width: 45%;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.registration-form .form-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.registration-form .form-group {
+  margin-bottom: 15px;
+}
+
+.registration-form .form-actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.registration-form .btn {
+  width: 100%;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .registration-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .app-introduction,
+  .registration-form {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .app-introduction .logo img {
+    width: 120px;
+  }
+}

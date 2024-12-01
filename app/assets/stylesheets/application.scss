@@ -1,0 +1,23 @@
+/*
+ *= require_tree ./shared
+ *= require_tree ./user
+ *= require_self
+ */
+@import "bootstrap";
+/* 全体適用のスタイル */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h1, h2, h3 {
+  color: #222;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}

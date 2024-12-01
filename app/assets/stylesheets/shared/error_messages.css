@@ -1,0 +1,9 @@
+/* エラーメッセージ表示用スタイル */
+.error-messages {
+  border: 1px solid #f5c6cb;
+  background-color: #f8d7da;
+  padding: 10px;
+  margin-bottom: 15px;
+  color: #721c24;
+  border-radius: 4px;
+}
