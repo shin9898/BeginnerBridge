@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
   const selectElement = document.getElementById("user_experience_select");
   const descriptionElement = document.getElementById("experience_description");
 
@@ -11,8 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     5: "複数人での開発経験があり、フレームワークを使いこなせる方"
   };
 
-  // 初期表示
-  descriptionElement.textContent = descriptions[selectElement.value];
+  // 初期表示（選択されているオプションがあればその説明を表示）
+  const initialValue = selectElement.value || 1; // 初期選択値がない場合は1をデフォルトに
+  descriptionElement.textContent = descriptions[initialValue];
 
   // 選択変更時の処理
   selectElement.addEventListener("change", (event) => {

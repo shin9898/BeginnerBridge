@@ -1,14 +1,25 @@
-<h1>マイページ</h1>
+<%= render "shared/header" %>
+<div class="show-user-page">
+  <h1 class="page-title">マイページ</h1>
 
-<div>
-  <p><strong>ユーザー名:</strong> <%= @user.username %></p>
-  <p><strong>メールアドレス:</strong> <%= @user.email %></p>
-  <p><strong>経験:</strong> <%= @user.user_experience.name %></p>
-  <p><strong>所属:</strong> <%= @user.affiliation.presence || "未設定" %></p>
-  <p><strong>サイトURL:</strong> <%= @user.site_url.presence || "未設定" %></p>
+  <div class="user-info-container">
+    <p><strong>ユーザー名:</strong> <%= @user.username %></p>
+    <p><strong>メールアドレス:</strong> <%= @user.email %></p>
+    <p><strong>経験:</strong> <%= @user.user_experience.name.presence || "未設定" %></p>
+    <p><strong>所属:</strong> <%= @user.affiliation.presence || "未設定" %></p>
+    <p><strong>サイトURL:</strong> 
+      <% if @user.site_url.present? %>
+        <%= link_to @user.site_url, @user.site_url, target: "_blank", rel: "noopener" %>
+      <% else %>
+        未設定
+      <% end %>
+    </p>
+    <p><strong>自己紹介:</strong> <%= simple_format(@user.bio.presence || "未設定") %></p>
+  </div>
+
+  <% if user_signed_in? && current_user == @user %>
+    <div class="edit-button-container">
+      <%= link_to "ユーザー情報を編集する", edit_user_path(@user), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
 </div>
-
-<% if user_signed_in? && current_user == @user %>
-  <!-- 編集ボタンの表示：ログインしていて、かつ自分のマイページの場合のみ表示 -->
-  <%= link_to "ユーザー情報を編集する", edit_user_path(@user), class: "btn btn-primary" %>
-<% end %>

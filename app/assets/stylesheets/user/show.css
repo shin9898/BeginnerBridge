@@ -1,0 +1,55 @@
+/* マイページ専用スタイル */
+.show-user-page {
+  background-color: #fff;
+  padding: 20px;
+  max-width: 700px;
+  margin: 50px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.show-user-page .page-title {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.user-info-container p {
+  font-size: 1rem;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.user-info-container strong {
+  color: #555;
+}
+
+.user-info-container a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.user-info-container a:hover {
+  text-decoration: underline;
+}
+
+.edit-button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.edit-button-container .btn {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button-container .btn:hover {
+  background-color: #0056b3;
+}
