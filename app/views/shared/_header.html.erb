@@ -7,8 +7,11 @@
         <% end %>
       </h1>
       <div class="navbar-items">
+        <%= link_to '質問する', user_signed_in? ? new_post_path : new_user_session_path, class: 'btn btn-success' %>
         <% if user_signed_in? %>
-          <span class="username">こんにちは、<%= link_to current_user.username, user_path(current_user) %>さん</span>
+          <span class="username-btn">
+            <%= link_to "#{current_user.username}", user_path(current_user), class: "username-link" %>
+          </span>
           <%= link_to 'ログアウト', destroy_user_session_path, data: { turbo_method: :delete }, class: 'btn btn-danger' %>
         <% else %>
           <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-primary' %>
