@@ -11,5 +11,4 @@ class Post < ApplicationRecord
   validates :goal, length: { maximum: 300 }, allow_blank: true
   validates :attempts, length: { maximum: 300 }, allow_blank: true
   validates :source_code, length: { maximum: 1000 }, allow_blank: true
-  validates :image, format: { with: /\A.*\.(jpg|jpeg|png|gif)\z/i, message: "must be a valid image format (jpg, jpeg, png, gif)" }, allow_blank: true
 end

@@ -4,19 +4,15 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
-  # 質問 or 意見交換の選択ページ
   def new
-    # 「質問する」「意見交換する」ボタンを表示する画面
   end
 
   def new_question
     @post = Post.new
-    # 質問投稿用のフォームを表示するテンプレートをレンダリング
   end
 
   def new_opinion
     @post = Post.new
-    # 意見交換用のフォームを表示するテンプレートをレンダリング
   end
 
   def create
@@ -24,7 +20,13 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to root_path
     else
-      render :new, status: :unprocessable_entity
+      if params[:post_type] == 'question'
+        render :new_question, status: :unprocessable_entity
+      elsif params[:post_type] == 'opinion'
+        render :new_opinion, status: :unprocessable_entity
+      else
+        redirect_to new_post_path, alert: '投稿タイプが不正です。'
+      end  
     end
   end
 
