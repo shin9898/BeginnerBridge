@@ -4,3 +4,6 @@ ja:
       user:
         username: ユーザーネーム
         user_experience_id: 経験レベルカテゴリー
+      post:
+        title: タイトル
+        content: 内容
