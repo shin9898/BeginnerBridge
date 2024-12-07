@@ -10,7 +10,7 @@
       <p>このフォームでは、プログラミングやITに関する技術的な質問を投稿できます。具体的な問題やエラーの内容を記載してください。</p>
     </div>
 
-    <%= form_with model: @post, local: true do |f| %>
+    <%= form_with model: @post, local: true, html: { id: 'new_post' } do |f| %>
       <%= hidden_field_tag :post_type, 'question' %>
       <%= render 'shared/error_messages', model: f.object %>
 
@@ -49,6 +49,7 @@
       <div class="form-group">
         <%= f.label :image, "参考画像（任意）", class: "form-label" %>
         <%= f.file_field :image, class: "form-control" %>
+          <div id="previews"></div>
       </div>
 
       <%= f.hidden_field :post_category_id, value: 2 %>

@@ -45,6 +45,19 @@
   font-size: 14px;
 }
 
+.preview-image {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .btn {
   display: block;
   width: 100%;
