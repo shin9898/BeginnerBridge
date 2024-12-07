@@ -14,6 +14,14 @@ class Post < ApplicationRecord
 
   validate :validate_goal_and_attempts
 
+  def question?
+    post_category_id == 2
+  end
+
+  def opinion?
+    post_category_id == 3
+  end
+
   private
 
   def validate_goal_and_attempts

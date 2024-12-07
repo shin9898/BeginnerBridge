@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :new_question, :new_opinion, :create]
+  before_action :authenticate_user!, only: [:new, :new_question, :new_opinion, :create, :edit]
   def index
     @posts = Post.all
   end
@@ -25,9 +25,17 @@ class PostsController < ApplicationController
       elsif params[:post_type] == 'opinion'
         render :new_opinion, status: :unprocessable_entity
       else
-        redirect_to new_post_path, alert: '投稿タイプが不正です。'
+        redirect_to new_post_path
       end  
     end
+  end
+
+  def show
+    @post = Post.find(params[:id])
+  end
+
+  def edit
+    @post = Post.find(params[:id])
   end
 
   private

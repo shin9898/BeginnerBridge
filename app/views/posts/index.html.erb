@@ -20,7 +20,7 @@
         <div class="question">
           <div class="question-top">
             <div class="question-top__title">
-              <%= post.title %>
+              <%= link_to post.title, post_path(post), class: "post-title-link" %>
             </div>
             <div class="question-top__name">
               <%= post.user.username %>

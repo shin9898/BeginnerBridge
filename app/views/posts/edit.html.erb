@@ -1,0 +1,48 @@
+<%= render 'shared/header' %>
+
+<div class="edit-post">
+  <h1>投稿を編集する</h1>
+
+  <%= form_with model: @post, local: true do |f| %>
+    <div class="form-group">
+      <%= f.label :title, 'タイトル', class: 'form-label' %>
+      <%= f.text_field :title, class: 'form-input', placeholder: 'タイトルを入力してください' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :content, '内容', class: 'form-label' %>
+      <%= f.text_area :content, class: 'form-input', rows: 6, placeholder: '投稿内容を入力してください' %>
+    </div>
+
+    <% if @post.question? %>
+      <div class="form-group">
+        <%= f.label :goal, '実現したいこと', class: 'form-label' %>
+        <%= f.text_area :goal, class: 'form-input', rows: 4, placeholder: '実現したいことを記載してください' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :attempts, '試したこと・調べたこと', class: 'form-label' %>
+        <%= f.text_area :attempts, class: 'form-input', rows: 4, placeholder: '試したことを記載してください' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :source_code, '該当ソースコード', class: 'form-label' %>
+        <%= f.text_area :source_code, class: 'form-input', rows: 8, placeholder: 'ソースコードを記載してください' %>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :image, '画像をアップロード', class: 'form-label' %>
+      <%= f.file_field :image, class: 'form-input' %>
+      <% if @post.image.attached? %>
+        <p>現在の画像:</p>
+        <%= image_tag @post.image.variant(resize: '150x150'), alt: '現在の画像', class: 'current-image' %>
+      <% end %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit '更新する', class: 'btn-submit' %>
+      <%= link_to 'キャンセル', post_path(@post), class: 'btn-cancel' %>
+    </div>
+  <% end %>
+</div>

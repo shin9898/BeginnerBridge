@@ -60,6 +60,16 @@
   font-size: 14px;
 }
 
+.post-title-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.post-title-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
 .question-top__name {
   font-size: 12px;
   text-align: right;
