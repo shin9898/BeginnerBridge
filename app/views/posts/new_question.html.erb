@@ -16,38 +16,38 @@
 
       <!-- タイトル -->
       <div class="form-group">
-        <%= f.label :title, "タイトル", class: "form-label" %>
+        <%= f.label :title, "タイトル（必須）", class: "form-label" %>
         <%= f.text_field :title, class: "form-control", placeholder: "タイトルを入力してください" %>
       </div>
 
       <!-- 内容 -->
       <%= hidden_field_tag :post_category_id, 2 %>
       <div class="form-group">
-        <%= f.label :content, "内容", class: "form-label" %>
+        <%= f.label :content, "わからないことや発生している問題を教えてください（必須）", class: "form-label" %>
         <%= f.text_area :content, class: "form-control", placeholder: "内容を入力してください", rows: 8 %>
       </div>
 
       <!-- 実現したいこと -->
       <div class="form-group">
-        <%= f.label :goal, "実現したいこと", class: "form-label" %>
+        <%= f.label :goal, "実現したいことを教えてください（必須）", class: "form-label" %>
         <%= f.text_area :goal, class: "form-control", placeholder: "具体的な目標を入力してください", rows: 4 %>
       </div>
 
       <!-- 試したこと・調べたこと -->
       <div class="form-group">
-        <%= f.label :attempts, "試したこと・調べたこと", class: "form-label" %>
+        <%= f.label :attempts, "試したこと・調べたことを教えてください（必須）", class: "form-label" %>
         <%= f.text_area :attempts, class: "form-control", placeholder: "試したこと・調べたことを記載してください", rows: 4 %>
       </div>
 
       <!-- 該当ソースコード -->
       <div class="form-group">
-        <%= f.label :source_code, "該当ソースコード", class: "form-label" %>
+        <%= f.label :source_code, "該当のソースコードをコピーアンドペーストしてください（任意）", class: "form-label" %>
         <%= f.text_area :source_code, class: "form-control", placeholder: "ソースコードを記載してください", rows: 8 %>
       </div>
 
       <!-- 参考画像 -->
       <div class="form-group">
-        <%= f.label :image, "参考画像", class: "form-label" %>
+        <%= f.label :image, "参考画像（任意）", class: "form-label" %>
         <%= f.file_field :image, class: "form-control" %>
       </div>
 

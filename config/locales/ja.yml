@@ -7,3 +7,5 @@ ja:
       post:
         title: タイトル
         content: 内容
+        goal: 実現したいこと
+        attempts: 試したこと・調べたこと

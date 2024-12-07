@@ -6,19 +6,17 @@ RSpec.describe Post, type: :model do
   end
   describe '質問・意見交換投稿の保存' do
     context '質問・意見交換が投稿できる場合' do
-      it 'title,content,post_category_id,goal,attempts,source_code,imageを投稿できる' do
+      it 'すべての情報が正しく入力されている場合保存できる' do
         expect(@post).to be_valid
       end
-      it 'goalが空でも投稿できる' do
-        @post.goal = ""
-        expect(@post).to be_valid
-      end
-      it 'attemptsが空でも投稿できる' do
-        @post.attempts = ""
+      it 'goalとattemptsが空でもpost_category_idが3なら保存できる' do
+        @post.post_category_id = 3
+        @post.goal = ''
+        @post.attempts = ''
         expect(@post).to be_valid
       end
       it 'source_codeが空でも投稿できる' do
-        @post.source_code = ""
+        @post.source_code = ''
         expect(@post).to be_valid
       end
       it 'imageが空でも投稿できる' do
@@ -28,13 +26,25 @@ RSpec.describe Post, type: :model do
     end
 
     context '質問・意見交換が投稿できない場合' do
+      it 'goalが空でpost_category_idが2の場合保存できない' do
+        @post.post_category_id = 2
+        @post.goal = ''
+        @post.valid?
+        expect(@post.errors.full_messages).to include("実現したいことを入力してください")
+      end
+      it 'attemptsが空でpost_category_idが2の場合保存できない' do
+        @post.post_category_id = 2
+        @post.attempts = ''
+        @post.valid?
+        expect(@post.errors.full_messages).to include("試したこと・調べたことを入力してください")
+      end
       it 'titleが空では投稿できない' do
-        @post.title = ""
+        @post.title = ''
         @post.valid?
         expect(@post.errors.full_messages).to include("タイトルを入力してください")
       end
       it 'contentが空では投稿できない' do
-        @post.content = ""
+        @post.content = ''
         @post.valid?
         expect(@post.errors.full_messages).to include("内容を入力してください")
       end
