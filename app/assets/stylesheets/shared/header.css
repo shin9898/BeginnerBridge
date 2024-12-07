@@ -21,15 +21,20 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: nowrap;
 }
 
 .navbar-items a {
   color: #fff;
   text-decoration: none;
   margin: 0 8px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 1.2;
 }
 
 .navbar-items a:hover {
@@ -39,13 +44,20 @@
 
 .username {
   margin-right: 10px;
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
   font-weight: bold;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 1.2;
 }
 
-.btn {
-  text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+.username:hover {
+  background-color: #0056b3;
 }
 
 .brand-logo img {
@@ -63,5 +75,11 @@
 
   .navbar-items a {
     margin: 3px 0;
+    white-space: normal;
+  }
+
+  .username {
+    display: inline-block;
+    margin-bottom: 5px;
   }
 }
