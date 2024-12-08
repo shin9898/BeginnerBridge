@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :new_question, :new_opinion, :create, :edit]
+  before_action :authenticate_user!, only: [:new, :new_question, :new_opinion, :create, :edit, :update]
   def index
     @posts = Post.all
   end
@@ -36,6 +36,22 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    redirect_to post_path(@post) unless @post.user == current_user
+  end
+
+  def update
+    @post = Post.find(params[:id])
+
+    unless @post.user == current_user
+    redirect_to root_path and return
+    end
+
+    if @post.update(post_params)
+      redirect_to post_path(@post), notice: '投稿を更新しました。'
+    else
+      flash.now[:alert] = '更新に失敗しました。'
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
