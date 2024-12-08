@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :new_question, :new_opinion, :create, :edit, :update]
+  before_action :authenticate_user!, only: [ :new, :new_question, :new_opinion, :create, :edit, :update, :destroy ]
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_permission, only: [:edit, :update, :destroy]
   def index
     @posts = Post.all
   end
@@ -31,36 +33,37 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
   end
 
   def edit
-    @post = Post.find(params[:id])
-    redirect_to post_path(@post) unless @post.user == current_user
+    unless @post.user == current_user
+      redirect_to post_path(@post) and return
+    end
   end
 
   def update
-    @post = Post.find(params[:id])
-
-    unless @post.user == current_user
-    redirect_to root_path and return
-    end
-
     if @post.update(post_params)
-      redirect_to post_path(@post), notice: '投稿を更新しました。'
+      redirect_to post_path(@post)
     else
-      flash.now[:alert] = '更新に失敗しました。'
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @post = Post.find(params[:id])
     @post.destroy
     redirect_to root_path
   end
 
   private
+
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  def check_user_permission
+    redirect_to post_path(@post) unless @post.user == current_user
+  end  
+
    def post_params
      params.require(:post).permit(:title, :content, :post_category_id, 
                                   :goal, :attempts, :source_code, :image).merge(user_id: current_user.id)
