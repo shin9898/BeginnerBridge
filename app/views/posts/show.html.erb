@@ -51,20 +51,24 @@
   <div class="comment-section">
     <h4>コメント</h4>
     <div class="comment-form">
-      <%# <%= form_with(model: [@post, Comment.new], local: true) do |f| %>
-        <%# <%= f.text_area :content, placeholder: 'コメントを入力してください', rows: 3 %>
-        <%# <%= f.submit 'コメントする', class: 'btn btn-primary' %>
-      <%# <% end %>
+      <% if user_signed_in? %>
+        <%= form_with(model: [@post, @comment], local: true) do |f| %>
+          <%= f.text_area :content, placeholder: 'コメントを入力してください', rows: 3 %>
+          <%= f.submit 'コメントする', class: 'btn btn-primary' %>
+        <% end %>
+      <% else %>
+        <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
+      <% end %>
     </div>
 
-    <%# <ul class="comments"> %>
-      <%# <% @post.comments.each do |comment| %>
-        <%# <li class="comment"> %>
-          <%# <p class="author"><%= comment.user.username</p> %>
-          <%# <p><%= comment.content</p> %>
-        <%# </li> %>
-      <%# <% end %>
-    <%# </ul> %>
-  <%# </div> %>
+    <ul class="comments">
+      <% @post.comments.each do |comment| %>
+        <p class="comment">
+          <strong class="author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %>：</strong>
+          <%= comment.content %>
+        </p>
+      <% end %>
+    </ul>
+  </div>
 </div>
 <%= render 'shared/footer' %>
