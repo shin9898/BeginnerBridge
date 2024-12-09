@@ -7,5 +7,6 @@ Rails.application.routes.draw do
       get 'new_question', to: 'posts#new_question'
       get 'new_opinion', to: 'posts#new_opinion'
     end
+    resources :comments, only: :create
   end
 end
