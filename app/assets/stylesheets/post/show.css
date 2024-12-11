@@ -1,9 +1,10 @@
-.post-show {
-  margin: 20px;
+.post-show.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
   background-color: #f9fafb;
   border: 2px solid #e1e1e1;
   border-radius: 10px;
-  padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -121,14 +122,19 @@
   margin-top: 20px;
   list-style: none;
   padding: 0;
+  max-width: 100%;
 }
 
-.comments .comment {
-  padding: 10px;
+.comment {
+  width: 750px;
+  padding: 0px;
+  line-height: 1.5;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f4f4f4;
+  color: #333;
+  white-space: pre-wrap;
 }
 
 .comments .comment .author {

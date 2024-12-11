@@ -1,6 +1,6 @@
 <%= render 'shared/header' %>
 
-<div class="post-show">
+<div class="post-show container">
   <h2 class="post-title"><%= @post.title %></h2>
 
   <% if @post.question? %>
@@ -37,7 +37,7 @@
   <% end %>
 
   <div class="post-user">
-    <p>投稿者: <%= @post.user.username %></p>
+    <p>投稿者: <%= @post.user.username %> (<%= @post.user.user_experience.name %>)</p>
     <p>投稿日: <%= @post.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
   </div>
 
@@ -53,7 +53,7 @@
     <div class="comment-form">
       <% if user_signed_in? %>
         <%= form_with(model: [@post, @comment], local: true) do |f| %>
-          <%= f.text_area :content, placeholder: 'コメントを入力してください', rows: 3 %>
+          <%= f.text_area :content, placeholder: 'コメントを入力してください' %>
           <%= f.submit 'コメントする', class: 'btn btn-primary' %>
         <% end %>
       <% else %>
@@ -63,12 +63,13 @@
 
     <ul class="comments">
       <% @post.comments.each do |comment| %>
-        <p class="comment">
-          <strong class="author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %>：</strong>
-          <%= comment.content %>
-        </p>
+        <li class="comment">
+          <p><strong class="author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %> (<%= @post.user.user_experience.name %>)</strong></p>
+          <span><%= simple_format(comment.content) %></span>
+        </li>
       <% end %>
     </ul>
   </div>
 </div>
+
 <%= render 'shared/footer' %>
