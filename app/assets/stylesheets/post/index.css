@@ -1,7 +1,6 @@
 /******************************************** 
   一覧画面
 *********************************************/
-
 body {
   margin: 0;
   padding: 0;
@@ -34,15 +33,15 @@ body {
   margin-bottom: 25px;
 }
 
-.comment {
+.index-comment {
   width: 70px;
   height: 100%;
-  background-color: #1C3667;
+  background-color: #0C6DFD;
   color: #FFFFFF;
   border-radius: 5px 0 0 5px;
 }
 
-.comment__num {
+.index-comment__num {
   width: 70px;
   height: 38px;
   margin: 20px auto 0;
@@ -51,7 +50,7 @@ body {
   text-align: center;
 }
 
-.comment__unit {
+.index-comment__unit {
   width: 70px;
   height: 16px;
   line-height: 16px;

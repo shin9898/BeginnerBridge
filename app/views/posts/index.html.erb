@@ -6,13 +6,11 @@
       <!-- 投稿1件分の表示 -->
       <div class="post-content">
         <!-- コメント情報 -->
-        <div class="comment">
-          <div class="comment__num">
-            <%# コメント数を動的に表示する予定 %>
-            <%# <%= post.comments&.count || 0 %>
-            0
+        <div class="index-comment">
+          <div class="index-comment__num">
+            <%= post.comments&.count || 0 %>
           </div>
-          <div class="comment__unit">
+          <div class="index-comment__unit">
             comments
           </div>
         </div>

@@ -37,7 +37,7 @@
   <% end %>
 
   <div class="post-user">
-    <p>投稿者: <%= @post.user.username %> (<%= @post.user.user_experience.name %>)</p>
+    <p>投稿者: <%= link_to @post.user.username, "/users/#{@post.user_id}" %> (<%= @post.user.user_experience.name %>)</p>
     <p>投稿日: <%= @post.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
   </div>
 
@@ -48,9 +48,9 @@
     </div>
   <% end %>
 
-  <div class="comment-section">
+  <div class="show-comment-section">
     <h4>コメント</h4>
-    <div class="comment-form">
+    <div class="show-comment-form">
       <% if user_signed_in? %>
         <%= form_with(model: [@post, @comment], local: true) do |f| %>
           <%= f.text_area :content, placeholder: 'コメントを入力してください' %>
@@ -61,10 +61,10 @@
       <% end %>
     </div>
 
-    <ul class="comments">
+    <ul class="show-comments">
       <% @post.comments.each do |comment| %>
-        <li class="comment">
-          <p><strong class="author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %> (<%= @post.user.user_experience.name %>)</strong></p>
+        <li class="show-comment">
+          <p><strong class="show-author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %> (<%= @post.user.user_experience.name %>)</strong></p>
           <span><%= simple_format(comment.content) %></span>
         </li>
       <% end %>

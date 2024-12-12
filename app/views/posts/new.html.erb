@@ -1,18 +1,19 @@
 <%= render 'shared/header' %>
+<div class ="post-new-main">
+  <h1 class="page-title">投稿方法を選択</h1>
 
-<h1 class="page-title">投稿方法を選択</h1>
+  <div class="selection-container">
+    <div class="selection-card">
+      <h2 class="card-title">質問する</h2>
+      <p class="card-description">プログラミングの質問を投稿して、他のユーザーから解答をもらいましょう。具体的な問題や課題を入力してください。</p>
+      <%= link_to '質問する', new_question_posts_path, class: 'btn btn-primary' %>
+    </div>
 
-<div class="selection-container">
-  <div class="selection-card">
-    <h2 class="card-title">質問する</h2>
-    <p class="card-description">プログラミングの質問を投稿して、他のユーザーから解答をもらいましょう。具体的な問題や課題を入力してください。</p>
-    <%= link_to '質問する', new_question_posts_path, class: 'btn btn-primary' %>
-  </div>
-
-  <div class="selection-card">
-    <h2 class="card-title">意見交換する</h2>
-    <p class="card-description">プログラミングに関する意見やアイデアをシェアしましょう。みんなで意見を交換して学びましょう。</p>
-    <%= link_to '意見交換する', new_opinion_posts_path, class: 'btn btn-secondary' %>
+    <div class="selection-card">
+      <h2 class="card-title">意見交換する</h2>
+      <p class="card-description">プログラミングに関する意見やアイデアをシェアしましょう。みんなで意見を交換して学びましょう。</p>
+      <%= link_to '意見交換する', new_opinion_posts_path, class: 'btn btn-secondary' %>
+    </div>
   </div>
 </div>
 <%= render 'shared/footer' %>

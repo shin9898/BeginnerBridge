@@ -1,16 +1,12 @@
-/******************************************** 
-  意見交換投稿画面
-*********************************************/
-.new-main {
+.opinion-main {
   padding: 60px 20px;
   background-color: #F9F9F9;
-  min-height: calc(100vh - 65px);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.new-container {
+.opinion-container {
   width: 700px;
   padding: 40px;
   background-color: #FFFFFF;
@@ -18,7 +14,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.new-title {
+.opinion-title {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -26,18 +22,18 @@
   color: #333333;
 }
 
-.form-group {
+.opinion-form-group {
   margin-bottom: 20px;
 }
 
-.form-label {
+.opinion-form-label {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
   color: #555555;
 }
 
-.form-control {
+.opinion-form-control {
   width: 100%;
   padding: 10px;
   border: 1px solid #DDDDDD;
@@ -45,7 +41,7 @@
   font-size: 14px;
 }
 
-.btn {
+.opinion-btn {
   display: block;
   width: 100%;
   padding: 10px;
@@ -58,6 +54,6 @@
   text-align: center;
 }
 
-.btn:hover {
+.opinion-btn:hover {
   background-color: #218838;
 }

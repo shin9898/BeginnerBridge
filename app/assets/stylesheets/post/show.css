@@ -1,6 +1,6 @@
 .post-show.container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 40px auto;
   padding: 20px;
   background-color: #f9fafb;
   border: 2px solid #e1e1e1;
@@ -51,6 +51,11 @@
   color: #7f8c8d;
 }
 
+.user-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
 .post-actions {
   display: flex;
   justify-content: center;
@@ -83,19 +88,19 @@
   background-color: #c0392b;
 }
 
-.comment-section {
+.show-comment-section {
   margin-top: 40px;
   padding-top: 20px;
   border-top: 2px solid #ddd;
 }
 
-.comment-section h4 {
+.show-comment-section h4 {
   font-size: 20px;
   color: #3498db;
   margin-bottom: 15px;
 }
 
-.comment-section .comment-form textarea {
+.show-comment-section .show-comment-form textarea {
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -103,7 +108,7 @@
   font-size: 14px;
 }
 
-.comment-section .comment-form button {
+.show-comment-section .show-comment-form button {
   background-color: #3498db;
   color: white;
   border: none;
@@ -114,18 +119,18 @@
   transition: background-color 0.3s ease;
 }
 
-.comment-section .comment-form button:hover {
+.show-comment-section .show-comment-form button:hover {
   background-color: #2980b9;
 }
 
-.comments {
+.show-comments {
   margin-top: 20px;
   list-style: none;
   padding: 0;
   max-width: 100%;
 }
 
-.comment {
+.show-comment {
   width: 750px;
   padding: 0px;
   line-height: 1.5;
@@ -137,7 +142,7 @@
   white-space: pre-wrap;
 }
 
-.comments .comment .author {
+.show-comments .show-comment .author {
   font-weight: bold;
   color: #2c3e50;
 }
