@@ -87,7 +87,7 @@ body {
 }
 
 .index-comment__unit {
-  max-width: 70px;
+  width: 70px;
   height: 16px;
   line-height: 16px;
   font-size: 11px;
