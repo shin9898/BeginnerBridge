@@ -1,16 +1,12 @@
-/******************************************** 
-  新規質問投稿画面
-*********************************************/
-.new-main {
+.question-main {
   padding: 60px 20px;
   background-color: #F9F9F9;
-  min-height: calc(100vh - 65px);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.new-container {
+.question-container {
   width: 700px;
   padding: 40px;
   background-color: #FFFFFF;
@@ -18,7 +14,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.new-title {
+.question-title {
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
@@ -26,18 +22,18 @@
   color: #333333;
 }
 
-.form-group {
+.question-form-group {
   margin-bottom: 20px;
 }
 
-.form-label {
+.question-form-label {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
   color: #555555;
 }
 
-.form-control {
+.question-form-control {
   width: 100%;
   padding: 10px;
   border: 1px solid #DDDDDD;
@@ -45,20 +41,7 @@
   font-size: 14px;
 }
 
-.preview-image {
-  max-width: 200px;
-  max-height: 200px;
-  object-fit: contain;
-}
-
-.preview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.btn {
+.question-btn {
   display: block;
   width: 100%;
   padding: 10px;
@@ -71,6 +54,22 @@
   text-align: center;
 }
 
-.btn:hover {
+.question-btn:hover {
   background-color: #0056b3;
+}
+
+#previews {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#previews img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }

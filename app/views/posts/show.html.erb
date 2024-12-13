@@ -1,0 +1,75 @@
+<%= render 'shared/header' %>
+
+<div class="post-show container">
+  <h2 class="post-title"><%= @post.title %></h2>
+
+  <% if @post.question? %>
+    <div class="post-details">
+      <h4>わからないことや発生している問題</h4>
+      <p><%= @post.content %></p>
+
+      <h4>実現したいこと</h4>
+      <p><%= @post.goal %></p>
+
+      <h4>試したこと・調べたこと</h4>
+      <p><%= @post.attempts %></p>
+
+      <h4>該当ソースコード</h4>
+      <pre><code><%= @post.source_code %></code></pre>
+
+      <% if @post.image.attached? %>
+        <h4>参考画像</h4>
+        <%= image_tag @post.image, class: "post-image" %>
+      <% end %>
+    </div>
+  <% elsif @post.opinion? %>
+    <div class="post-details">
+      <h4>意見内容</h4>
+      <p><%= @post.content %></p>
+
+      <% if @post.image.attached? %>
+        <h4>関連画像</h4>
+        <%= image_tag @post.image, class: "post-image" %>
+      <% end %>
+    </div>
+  <% else %>
+    <p>この投稿タイプはサポートされていません。</p>
+  <% end %>
+
+  <div class="post-user">
+    <p>投稿者: <%= link_to @post.user.username, "/users/#{@post.user_id}" %> (<%= @post.user.user_experience.name %>)</p>
+    <p>投稿日: <%= @post.created_at.strftime('%Y年%m月%d日 %H:%M') %></p>
+  </div>
+
+  <% if @post.user == current_user %>
+    <div class="post-actions">
+      <%= link_to '編集する', edit_post_path(@post), class: 'edit-btn' %>
+      <%= link_to '削除', post_path(@post), data: { turbo_method: :delete }, class: 'delete-btn' %>
+    </div>
+  <% end %>
+
+  <div class="show-comment-section">
+    <h4>コメント</h4>
+    <div class="show-comment-form">
+      <% if user_signed_in? %>
+        <%= form_with(model: [@post, @comment], local: true) do |f| %>
+          <%= f.text_area :content, placeholder: 'コメントを入力してください' %>
+          <%= f.submit 'コメントする', class: 'btn btn-primary' %>
+        <% end %>
+      <% else %>
+        <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p></strong>
+      <% end %>
+    </div>
+
+    <ul class="show-comments">
+      <% @post.comments.each do |comment| %>
+        <li class="show-comment">
+          <p><strong class="show-author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %> (<%= @post.user.user_experience.name %>)</strong></p>
+          <span><%= simple_format(comment.content) %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<%= render 'shared/footer' %>

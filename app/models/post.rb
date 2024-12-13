@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
+  has_many :comments
   has_one_attached :image
 
   extend ActiveHash::Associations::ActiveRecordExtensions
@@ -13,6 +14,14 @@ class Post < ApplicationRecord
   validates :attempts, length: { maximum: 300 }
 
   validate :validate_goal_and_attempts
+
+  def question?
+    post_category_id == 2
+  end
+
+  def opinion?
+    post_category_id == 3
+  end
 
   private
 

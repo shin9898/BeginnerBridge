@@ -1,11 +1,11 @@
 <%= render 'shared/header' %>
 
-<div class="new-main">
-  <div class="new-container">
-    <h2 class="new-title">意見交換を投稿する</h2>
+<div class="opinion-main">
+  <div class="opinion-container">
+    <h2 class="opinion-title">意見交換を投稿する</h2>
 
     <!-- 意見交換の説明 -->
-    <div class="post-description">
+    <div class="opinion-description">
       <h4>意見交換の目的</h4>
       <p>このフォームでは、プログラミングやITに関するテーマについて意見を交換したい場合に投稿できます。</p>
     </div>
@@ -15,24 +15,25 @@
       <%= render 'shared/error_messages', model: f.object %>
 
       <!-- タイトル -->
-      <div class="form-group">
-        <%= f.label :title, "タイトル", class: "form-label" %>
-        <%= f.text_field :title, class: "form-control", placeholder: "タイトルを入力してください" %>
+      <div class="opinion-form-group">
+        <%= f.label :title, "タイトル", class: "opinion-form-label" %>
+        <%= f.text_field :title, class: "opinion-form-control", placeholder: "タイトルを入力してください" %>
       </div>
 
       <!-- 内容 -->
-      <div class="form-group">
-        <%= f.label :content, "内容", class: "form-label" %>
-        <%= f.text_area :content, class: "form-control", placeholder: "内容を入力してください", rows: 8 %>
+      <div class="opinion-form-group">
+        <%= f.label :content, "内容", class: "opinion-form-label" %>
+        <%= f.text_area :content, class: "opinion-form-control", placeholder: "内容を入力してください", rows: 8 %>
       </div>
 
       <%= f.hidden_field :post_category_id, value: 3 %>
 
       <!-- 送信ボタン -->
-      <div class="form-group">
-        <%= f.submit "投稿する", class: "btn btn-primary" %>
+      <div class="opinion-form-group">
+        <%= f.submit "投稿する", class: "opinion-btn" %>
       </div>
 
     <% end %>
   </div>
 </div>
+<%= render 'shared/footer' %>
