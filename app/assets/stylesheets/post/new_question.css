@@ -57,3 +57,19 @@
 .question-btn:hover {
   background-color: #0056b3;
 }
+
+#previews {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#previews img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

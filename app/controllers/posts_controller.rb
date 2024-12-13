@@ -3,8 +3,14 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :check_user_permission, only: [:edit, :update, :destroy]
   def index
-    @posts = Post.all
-  end
+    if params[:category] == "質問"
+      @posts = Post.where(post_category_id: 2).order(created_at: :desc)
+    elsif params[:category] == "意見交換"
+      @posts = Post.where(post_category_id: 3).order(created_at: :desc)
+    else
+      @posts = Post.all.order(created_at: :desc)
+    end
+  end 
 
   def new
   end

@@ -1,37 +1,44 @@
 <%= render 'shared/header' %>
 
 <div class="index-main">
-  <div class="post-contents">
-    <% @posts.each do |post| %>
-      <!-- 投稿1件分の表示 -->
-      <div class="post-content">
-        <!-- コメント情報 -->
-        <div class="index-comment">
-          <div class="index-comment__num">
-            <%= post.comments&.count || 0 %>
+  <div class="categories">
+    <%= link_to "すべて", posts_path, class: "category-link #{'active' if params[:category].blank?}" %>
+    <%= link_to "質問", posts_path(category: "質問"), class: "category-link #{'active' if params[:category] == '質問'}" %>
+    <%= link_to "意見交換", posts_path(category: "意見交換"), class: "category-link #{'active' if params[:category] == '意見交換'}" %>
+  </div>
+  <div class="content-main">
+    <div class="post-contents">
+      <% @posts.each do |post| %>
+        <!-- 投稿1件分の表示 -->
+        <div class="post-content">
+          <!-- コメント情報 -->
+          <div class="index-comment">
+            <div class="index-comment__num">
+              <%= post.comments&.count || 0 %>
+            </div>
+            <div class="index-comment__unit">
+              comments
+            </div>
           </div>
-          <div class="index-comment__unit">
-            comments
+          <!-- 投稿本文 -->
+          <div class="question">
+            <div class="question-top">
+              <div class="question-top__title">
+                <%= link_to post.title, post_path(post), class: "post-title-link" %>
+              </div>
+              <div class="question-top__name">
+                <%= link_to post.user.username, "/users/#{post.user_id}", class: "post-username-link" %> (<%= post.user.user_experience.name %>)
+              </div>
+            </div>
+            <div class="question-bottom">
+              <div class="question-bottom__content">
+                <%= post.content.truncate(20) %>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- 投稿本文 -->
-        <div class="question">
-          <div class="question-top">
-            <div class="question-top__title">
-              <%= link_to post.title, post_path(post), class: "post-title-link" %>
-            </div>
-            <div class="question-top__name">
-              <%= post.user.username %>
-            </div>
-          </div>
-          <div class="question-bottom">
-            <div class="question-bottom__content">
-              <%= post.content.truncate(100) %>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 

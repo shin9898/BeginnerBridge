@@ -1,6 +1,10 @@
 document.addEventListener('turbo:load', function(){
   // 新規投稿・編集ページのフォームを取得
-  const postForm = document.getElementById('new_post');
+  const newQuestionPost = document.getElementById('new_question_post');
+  const editPost = document.getElementById('edit_post');
+
+  const postForm = [newQuestionPost, editPost];
+
 
   // プレビューを表示するためのスペースを取得
   const previewList = document.getElementById('previews');
