@@ -1,8 +1,16 @@
+.edit-post-main {
+  padding: 60px 20px;
+  background-color: #F9F9F9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .edit-post {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
+  max-width: 700px;
+  width: 90%;
+  padding: 40px;
+  background-color: #FFFFFF;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -12,10 +20,13 @@
   color: #333;
   text-align: center;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .form-group {
   margin-bottom: 15px;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-label {
@@ -43,9 +54,37 @@
 
 .current-image {
   display: block;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin: 0 auto;
+}
+
+.current-image img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.images {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.left-image, .right-image {
+  flex: 1;
+  text-align: center;
+}
+
+.left-image {
+  padding-right: 10px;
+  border-right: 2px solid #ccc;
+}
+
+.right-image {
+  padding-left: 10px;
 }
 
 .form-actions {
