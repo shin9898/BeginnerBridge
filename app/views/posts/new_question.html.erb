@@ -10,7 +10,7 @@
       <p>このフォームでは、プログラミングやITに関する技術的な質問を投稿できます。具体的な問題やエラーの内容を記載してください。</p>
     </div>
 
-    <%= form_with model: @post, id: 'new_question_post', url: posts_path, local: true do |f| %>
+    <%= form_with model: @post_form, id: 'new_question_post', url: posts_path, local: true do |f| %>
       <%= hidden_field_tag :post_type, 'question' %>
       <%= render 'shared/error_messages', model: f.object %>
 

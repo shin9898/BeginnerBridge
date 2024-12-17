@@ -10,7 +10,7 @@
       <p>このフォームでは、プログラミングやITに関するテーマについて意見を交換したい場合に投稿できます。</p>
     </div>
 
-    <%= form_with model: @post, url: posts_path, local: true do |f| %>
+    <%= form_with model: @post_form, id: 'new_opinion_post', url: posts_path, local: true do |f| %>
       <%= hidden_field_tag :post_type, 'opinion' %>
       <%= render 'shared/error_messages', model: f.object %>
 

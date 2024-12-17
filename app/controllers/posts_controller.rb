@@ -16,16 +16,17 @@ class PostsController < ApplicationController
   end
 
   def new_question
-    @post = Post.new
+    @post_form = PostForm.new
   end
 
   def new_opinion
-    @post = Post.new
+    @post_form = PostForm.new
   end
 
   def create
-    @post = Post.new(post_params)
-    if @post.save
+    @post_form = PostForm.new(post_form_params)
+    if @post_form.valid?
+      @post_form.save
       redirect_to root_path
     else
       if params[:post_type] == 'question'
@@ -34,7 +35,7 @@ class PostsController < ApplicationController
         render :new_opinion, status: :unprocessable_entity
       else
         redirect_to new_post_path
-      end  
+      end
     end
   end
 
@@ -70,10 +71,15 @@ class PostsController < ApplicationController
 
   def check_user_permission
     redirect_to post_path(@post) unless @post.user == current_user
-  end  
+  end
 
-   def post_params
+  def post_form_params
+    params.require(:post_form).permit(:title, :content, :post_category_id,
+                                  :goal, :attempts, :source_code, :image).merge(user_id: current_user.id)
+  end
+
+  def post_params
      params.require(:post).permit(:title, :content, :post_category_id, 
                                   :goal, :attempts, :source_code, :image).merge(user_id: current_user.id)
-   end
+  end
 end
