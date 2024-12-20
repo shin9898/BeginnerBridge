@@ -1,7 +1,10 @@
 class PostForm
   include ActiveModel::Model
 
-  attr_accessor :user_id, :title, :content, :post_category_id, :goal, :attempts, :source_code, :image
+  attr_accessor(
+    :user_id, :title, :content, :post_category_id, :goal, :attempts, :source_code, :image,
+    :id, :created_at, :updated_at
+  )
 
   validates :user_id, presence: true
   validates :title, presence: true, length: { maximum: 100 }
@@ -13,16 +16,24 @@ class PostForm
 
   validate :validate_goal_and_attempts
 
+  def question?
+    post_category_id.to_i == 2
+  end
+
+  def opinion?
+    post_category_id.to_i == 3
+  end
+
   def save
     Post.create(title: title, content: content, post_category_id: post_category_id, 
                               source_code: source_code, goal: goal, attempts: attempts, user_id: user_id)
   end
 
-  private
-
-  def question?
-    post_category_id.to_i == 2
+  def update(params, post)
+    post.update(params)
   end
+
+  private
 
   def validate_goal_and_attempts
     if question?

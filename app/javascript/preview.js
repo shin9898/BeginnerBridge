@@ -5,7 +5,6 @@ document.addEventListener('turbo:load', function(){
 
   const postForm = [newQuestionPost, editPost];
 
-
   // プレビューを表示するためのスペースを取得
   const previewList = document.getElementById('previews');
 

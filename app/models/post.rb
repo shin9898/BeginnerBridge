@@ -5,4 +5,12 @@ class Post < ApplicationRecord
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :post_category
+
+  def question?
+    post_category_id.to_i == 2
+  end
+
+  def opinion?
+    post_category_id.to_i == 3
+  end
 end

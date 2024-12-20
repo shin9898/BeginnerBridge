@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [ :new, :new_question, :new_opinion, :create, :edit, :update, :destroy ]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :check_user_permission, only: [:edit, :update, :destroy]
+  before_action :check_user_permission, only: [:destroy]
   def index
     if params[:category] == "質問"
       @posts = Post.where(post_category_id: 2).order(created_at: :desc)
@@ -10,7 +10,7 @@ class PostsController < ApplicationController
     else
       @posts = Post.all.order(created_at: :desc)
     end
-  end 
+  end
 
   def new
   end
@@ -45,14 +45,19 @@ class PostsController < ApplicationController
   end
 
   def edit
+    post_attributes = @post.attributes
+    @post_form = PostForm.new(post_attributes)
     unless @post.user == current_user
       redirect_to post_path(@post) and return
     end
   end
 
   def update
-    if @post.update(post_params)
-      redirect_to post_path(@post)
+    @post_form = PostForm.new(post_form_params)
+    @post_form.image ||= @post.image.blob
+    if @post_form.valid? 
+      @post_form.update(post_form_params, @post)
+      redirect_to post_path(@post.id)
     else
       render :edit, status: :unprocessable_entity
     end
