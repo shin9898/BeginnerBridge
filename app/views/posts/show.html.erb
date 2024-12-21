@@ -15,6 +15,7 @@
       <p><%= @post.attempts %></p>
 
       <h4>該当ソースコード</h4>
+      <pre><code><%= @post.tags.first&.tag_name %></code></pre>
       <pre><code><%= @post.source_code %></code></pre>
 
       <% if @post.image.attached? %>

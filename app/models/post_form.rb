@@ -3,7 +3,8 @@ class PostForm
 
   attr_accessor(
     :user_id, :title, :content, :post_category_id, :goal, :attempts, :source_code, :image,
-    :id, :created_at, :updated_at
+    :id, :created_at, :updated_at,
+    :tag_name
   )
 
   validates :user_id, presence: true
@@ -25,12 +26,22 @@ class PostForm
   end
 
   def save
-    Post.create(title: title, content: content, post_category_id: post_category_id, 
+    post = Post.create(title: title, content: content, post_category_id: post_category_id, 
                               source_code: source_code, goal: goal, attempts: attempts, user_id: user_id)
+    if tag_name.present?
+      tag = Tag.where(tag_name: tag_name).first_or_initialize
+      tag.save
+      PostTagRelation.create(post_id: post.id, tag_id: tag.id)
+    end
   end
 
   def update(params, post)
+    post.post_tag_relations.destroy_all
+    tag_name = params.delete(:tag_name)
+    tag = Tag.where(tag_name: tag_name).first_or_initialize if tag_name.present?
+    tag.save if tag_name.present?
     post.update(params)
+    PostTagRelation.create(post_id: post.id, tag_id: tag.id) if tag_name.present?
   end
 
   private

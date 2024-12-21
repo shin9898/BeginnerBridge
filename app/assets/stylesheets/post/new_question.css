@@ -26,6 +26,12 @@
   margin-bottom: 20px;
 }
 
+.question-form-tag {
+  margin-bottom: 20px;
+  max-width: 80%;
+  width: 150px;
+}
+
 .question-form-label {
   display: block;
   margin-bottom: 8px;

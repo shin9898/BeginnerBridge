@@ -50,6 +50,7 @@ class PostsController < ApplicationController
     unless @post.user == current_user
       redirect_to post_path(@post) and return
     end
+    @post_form.tag_name = @post.tags.first&.tag_name
   end
 
   def update
@@ -80,7 +81,7 @@ class PostsController < ApplicationController
 
   def post_form_params
     params.require(:post_form).permit(:title, :content, :post_category_id,
-                                  :goal, :attempts, :source_code, :image).merge(user_id: current_user.id)
+                                  :goal, :attempts, :source_code, :tag_name, :image).merge(user_id: current_user.id)
   end
 
   def post_params

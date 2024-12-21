@@ -29,7 +29,10 @@
   <!-- 該当ソースコード -->
   <div class="question-form-group">
     <%= f.label :source_code, "該当のソースコードをコピーアンドペーストしてください（任意）", class: "question-form-label" %>
-    <%= f.text_area :source_code, class: "question-form-control", placeholder: "ソースコードを記載してください", rows: 8 %>
+    <div class="question-form-tag">
+      <%= f.text_field :tag_name, class: "question-form-control", placeholder: '例)Ruby' %>
+    </div>
+    <%= f.text_area :source_code, class: "question-form-control", placeholder: "該当のソースコードをコピーアンドペーストしてください", rows: 8 %>
   </div>
 
   <!-- 参考画像 -->
