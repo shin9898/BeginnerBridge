@@ -22,7 +22,8 @@
 
         <div class="form-group">
           <%= f.label :source_code, '該当ソースコード', class: 'form-label' %>
-          <%= f.text_field :tag_name, class: "form-input", placeholder: '例)Ruby' %>
+          <%= f.text_field :tag_name, class: "edit-form-tag", placeholder: '例)Ruby' %>
+          <div id="search-result"></div>
           <%= f.text_area :source_code, class: 'form-input', rows: 8, placeholder: 'ソースコードを記載してください' %>
         </div>
 

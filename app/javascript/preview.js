@@ -1,7 +1,7 @@
 document.addEventListener('turbo:load', function(){
   // 新規投稿・編集ページのフォームを取得
-  const newQuestionPost = document.getElementById('new_question_post');
-  const editPost = document.getElementById('edit_post');
+  const newQuestionPost = document.getElementById("post_form_new_question_post");
+  const editPost = document.getElementById('post_form_edit_post');
 
   const postForm = [newQuestionPost, editPost];
 
