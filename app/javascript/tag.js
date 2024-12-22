@@ -5,7 +5,7 @@ document.addEventListener("turbo:load", () => {
     inputElement.addEventListener("input", () => {
       const keyword = document.getElementById("post_form_tag_name").value;
       const XHR = new XMLHttpRequest();
-      XHR.open("GET", `/posts/search/?keyword=${keyword}`, true);
+      XHR.open("GET", `/posts/search_tags/?keyword=${keyword}`, true);
       XHR.responseType = "json";
       XHR.send();
       XHR.onload = () => {
