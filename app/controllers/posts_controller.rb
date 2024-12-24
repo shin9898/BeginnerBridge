@@ -1,14 +1,15 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, only: [ :new, :new_question, :new_opinion, :create, :edit, :update, :destroy ]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :check_user_permission, only: [:destroy]
+  before_action :check_user_permission, only: [:edit, :update, :destroy]
+
   def index
     if params[:category] == "質問"
-      @posts = Post.where(post_category_id: 2).order(created_at: :desc)
+      @posts = @q.result.where(post_category_id: 2).order(created_at: :desc)
     elsif params[:category] == "意見交換"
-      @posts = Post.where(post_category_id: 3).order(created_at: :desc)
+      @posts = @q.result.where(post_category_id: 3).order(created_at: :desc)
     else
-      @posts = Post.all.order(created_at: :desc)
+      @posts = @q.result.order(created_at: :desc)
     end
   end
 
@@ -73,6 +74,21 @@ class PostsController < ApplicationController
     return nil if params[:keyword] == ""
     tag = Tag.where(['tag_name LIKE ?', "%#{params[:keyword]}%"] )
     render json:{ keyword: tag }
+  end
+
+  def search
+    keyword = params.dig(:q, :title_or_tags_tag_name_or_user_username_cont) || ""
+    @posts = @q.result.includes(:tags, :user).distinct
+    @posts = case params[:sort_order]
+             when 'new'
+              @posts.order(created_at: :desc)
+             when 'old'
+              @posts.order(created_at: :asc)
+             else
+              @posts
+             end
+             
+    @keyword = keyword
   end
 
   private

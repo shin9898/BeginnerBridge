@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get 'new_question', to: 'posts#new_question'
       get 'new_opinion', to: 'posts#new_opinion'
       get 'search_tags', to: 'posts#search_tags'
-      get 'search', to: 'posts#search'           
+      get 'search'
     end
     resources :comments, only: :create
   end
