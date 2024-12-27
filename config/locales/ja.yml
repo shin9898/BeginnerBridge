@@ -4,7 +4,10 @@ ja:
       user:
         username: ユーザーネーム
         user_experience_id: 経験レベルカテゴリー
-      post:
+
+  activemodel:
+    attributes:
+      post_form:
         title: タイトル
         content: 内容
         goal: 実現したいこと

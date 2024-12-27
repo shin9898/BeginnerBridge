@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Post, type: :model do
   before do
     @post = FactoryBot.build(:post)
+    @tag = FactoryBot.create(:tag, tag_name: 'Ruby')
   end
   describe '質問・意見交換投稿の保存' do
     context '質問・意見交換が投稿できる場合' do
@@ -22,6 +23,12 @@ RSpec.describe Post, type: :model do
       it 'imageが空でも投稿できる' do
         @post.image = nil
         expect(@post).to be_valid
+      end
+      it '投稿とタグを関連づけて投稿できる' do
+        PostTagRelation.create(post: @post, tag: @tag)
+
+        expect(@post.tags.count).to eq(1)
+        expect(@post.tags.first.tag_name).to eq('Ruby')
       end
     end
 
@@ -61,3 +68,5 @@ RSpec.describe Post, type: :model do
     end
   end
 end
+
+#bundle exec rspec spec/models/post_spec.rb
