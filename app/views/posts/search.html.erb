@@ -1,5 +1,4 @@
-<%= render "shared/header" %>
-
+<% breadcrumb :search %>
 <div class="search-container">
   <!-- 検索結果タイトル -->
   <h2 class="search-title">「<%= @keyword.presence || '未入力' %>」の検索結果：<%= @posts.count %>件</h2>
@@ -51,5 +50,3 @@
     <p class="search-no-results">該当する投稿が見つかりませんでした。</p>
   <% end %>
 </div>
-
-<%= render 'shared/footer' %>

@@ -133,6 +133,9 @@ GEM
     ffi (1.17.0-x86_64-linux-gnu)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    gretel (5.0.1)
+      actionview (>= 6.1)
+      railties (>= 6.1)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     image_processing (1.13.0)
@@ -331,6 +334,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
+  gretel
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

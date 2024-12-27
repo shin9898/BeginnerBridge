@@ -1,5 +1,3 @@
-<%= render 'shared/header' %>
-
 <div class="index-main">
   <div class="categories">
     <%= link_to "すべて", posts_path, class: "category-link #{'active' if params[:category].blank?}" %>
@@ -41,5 +39,3 @@
     </div>
   </div>
 </div>
-
-<%= render 'shared/footer' %>

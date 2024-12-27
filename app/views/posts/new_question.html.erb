@@ -1,5 +1,4 @@
-<%= render 'shared/header' %>
-
+<% breadcrumb :new_question_post %>
 <div class="question-main">
   <div class="question-container">
     <h2 class="question-title">質問を投稿する</h2>
@@ -12,5 +11,3 @@
     <%= render partial: 'form_new_question', locals: {url: posts_path, method: :post} %>
   </div>
 </div>
-
-<%= render 'shared/footer' %>
