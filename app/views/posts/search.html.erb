@@ -1,0 +1,55 @@
+<%= render "shared/header" %>
+
+<div class="search-container">
+  <!-- 検索結果タイトル -->
+  <h2 class="search-title">「<%= @keyword.presence || '未入力' %>」の検索結果：<%= @posts.count %>件</h2>
+  <!-- 下線 -->
+  <hr class="search-title-underline">
+  <!-- 並び替えプルダウン -->
+  <div class="search-sort">
+    <%= form_with(url: search_posts_path, method: :get, local: true) do |f| %>
+      <%= hidden_field_tag 'q[title_or_tags_tag_name_or_user_username_cont]', params.dig(:q, :title_or_tags_tag_name_or_user_username_cont) %>
+      <label for="sort_order">並び替え:</label>
+      <%= select_tag :sort_order, options_for_select([['最新順', 'new'], ['古い順', 'old']], params[:sort_order]), onchange: "this.form.submit();" %>
+    <% end %>
+  </div>
+
+  <% if @posts.any? %>
+    <ul class="search-posts-list">
+      <% @posts.each do |post| %>
+        <div class="search-post-item">
+          <!-- 回答数表示 -->
+          <div class="search-post-comments">
+            <div class="search-post-comments-count">
+              <%= post.comments&.count || 0 %>
+            </div>
+            <div class="search-post-comments-label">
+              回答
+            </div>
+          </div>
+          <!-- 投稿情報 -->
+          <div class="search-post-content">
+            <div class="search-post-header">
+              <div class="search-post-title">
+                <%= link_to post.title, post_path(post), class: "search-post-title-link" %>
+              </div>
+              <div class="search-post-user">
+                <%= link_to post.user.username, user_path(post.user_id), class: "search-post-user-link" %> 
+                (<%= post.user.user_experience&.name || "未設定" %>)
+              </div>
+            </div>
+            <div class="search-post-body">
+              <div class="search-post-snippet">
+                <%= post.content.truncate(20) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="search-no-results">該当する投稿が見つかりませんでした。</p>
+  <% end %>
+</div>
+
+<%= render 'shared/footer' %>

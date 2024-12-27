@@ -9,56 +9,8 @@
       <h4>質問の目的</h4>
       <p>このフォームでは、プログラミングやITに関する技術的な質問を投稿できます。具体的な問題やエラーの内容を記載してください。</p>
     </div>
-
-    <%= form_with model: @post, id: 'new_question_post', url: posts_path, local: true do |f| %>
-      <%= hidden_field_tag :post_type, 'question' %>
-      <%= render 'shared/error_messages', model: f.object %>
-
-      <!-- タイトル -->
-      <div class="question-form-group">
-        <%= f.label :title, "タイトル（必須）", class: "question-form-label" %>
-        <%= f.text_field :title, class: "question-form-control", placeholder: "タイトルを入力してください" %>
-      </div>
-
-      <!-- 内容 -->
-      <div class="question-form-group">
-        <%= f.label :content, "わからないことや発生している問題を教えてください（必須）", class: "question-form-label" %>
-        <%= f.text_area :content, class: "question-form-control", placeholder: "内容を入力してください", rows: 8 %>
-      </div>
-
-      <!-- 実現したいこと -->
-      <div class="question-form-group">
-        <%= f.label :goal, "実現したいことを教えてください（必須）", class: "question-form-label" %>
-        <%= f.text_area :goal, class: "question-form-control", placeholder: "具体的な目標を入力してください", rows: 4 %>
-      </div>
-
-      <!-- 試したこと・調べたこと -->
-      <div class="question-form-group">
-        <%= f.label :attempts, "試したこと・調べたことを教えてください（必須）", class: "question-form-label" %>
-        <%= f.text_area :attempts, class: "question-form-control", placeholder: "試したこと・調べたことを記載してください", rows: 4 %>
-      </div>
-
-      <!-- 該当ソースコード -->
-      <div class="question-form-group">
-        <%= f.label :source_code, "該当のソースコードをコピーアンドペーストしてください（任意）", class: "question-form-label" %>
-        <%= f.text_area :source_code, class: "question-form-control", placeholder: "ソースコードを記載してください", rows: 8 %>
-      </div>
-
-      <!-- 参考画像 -->
-      <div class="question-form-group">
-        <%= f.label :image, "参考画像（任意）", class: "question-form-label" %>
-        <%= f.file_field :image, class: "question-form-control" %>
-        <div id="previews"></div>
-      </div>
-
-      <%= f.hidden_field :post_category_id, value: 2 %>
-
-      <!-- 送信ボタン -->
-      <div class="question-form-group">
-        <%= f.submit "投稿する", class: "question-btn" %>
-      </div>
-
-    <% end %>
+    <%= render partial: 'form_new_question', locals: {url: posts_path, method: :post} %>
   </div>
 </div>
+
 <%= render 'shared/footer' %>

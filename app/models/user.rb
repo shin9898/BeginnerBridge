@@ -23,4 +23,8 @@ class User < ApplicationRecord
   validates :site_url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: "URLが無効です" }, allow_blank: true
   validates :bio, length: { maximum: 500 }, allow_blank: true
   validates_uniqueness_of :email, :username
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["username"]
+  end
 end

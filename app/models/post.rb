@@ -2,33 +2,26 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :comments
   has_one_attached :image
+  has_many :post_tag_relations
+  has_many :tags, through: :post_tag_relations
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :post_category
 
-  validates :title, presence: true, length: { maximum: 100 }
-  validates :content, presence: true, length: { maximum: 500 }
-  validates :post_category_id, numericality: { other_than: 1, message: "が無効なカテゴリーです"}
-  validates :source_code, length: { maximum: 1000 }, allow_blank: true
-  validates :goal, length: { maximum: 300 }
-  validates :attempts, length: { maximum: 300 }
-
-  validate :validate_goal_and_attempts
-
   def question?
-    post_category_id == 2
+    post_category_id.to_i == 2
   end
 
   def opinion?
-    post_category_id == 3
+    post_category_id.to_i == 3
   end
 
-  private
-
-  def validate_goal_and_attempts
-    if post_category_id == 2
-      errors.add(:goal, "を入力してください") if goal.blank?
-      errors.add(:attempts, "を入力してください") if attempts.blank?
-    end
+  def self.ransackable_attributes(auth_object = nil)
+    ["title"]
   end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["user", "tags"]
+  end
+
 end
