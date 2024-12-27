@@ -15,6 +15,21 @@
       <% end %>
     </p>
     <p><strong>自己紹介:</strong> <%= simple_format(@user.bio.presence || "未設定") %></p>
+    <% if current_user != @user %>
+      <% if @user.followed_by?(current_user) %>
+        <%=link_to "フォロー中", user_relationships_path(@user.id),class: "btn", data: { turbo_method: :delete } %>
+      <% else %>
+        <%=link_to "フォローする", user_relationships_path(@user.id),class: "btn", data: { turbo_method: :post } %>
+      <% end %>
+    <% end %>
+    <p>フォロー</p>
+    <% @user.followings.each do |user| %>
+      <p class=“f-user”><%= link_to user.username, user_path(user.id) %></p>
+    <% end %>
+    <p>フォロワー</p>
+    <% @user.followers.each do |user| %>
+      <p class=“f-user”><%= link_to user.username, user_path(user.id) %></p>
+    <% end %>
   </div>
 
   <% if user_signed_in? && current_user == @user %>

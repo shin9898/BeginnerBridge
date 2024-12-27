@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'posts#index'
-  resources :users, only: [:show, :edit, :update]
+  resources :users, only: [:show, :edit, :update] do
+    resource :relationships, only: [:create, :destroy]
+  end
   resources :posts do
     collection do
       get 'new_question', to: 'posts#new_question'
