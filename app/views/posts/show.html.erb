@@ -1,6 +1,5 @@
-<%= render 'shared/header' %>
-
 <div class="post-show container">
+  <div><% breadcrumb :post, @post %></div>
   <h2 class="post-title"><%= @post.title %></h2>
 
   <% if @post.question? %>
@@ -72,5 +71,3 @@
     </ul>
   </div>
 </div>
-
-<%= render 'shared/footer' %>

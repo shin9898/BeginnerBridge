@@ -1,10 +1,7 @@
-<%= render 'shared/header' %>
-
+<% breadcrumb :edit_post, @post %>
 <div class="edit-post-main">
   <div class="edit-post">
     <h1>投稿を編集する</h1>
     <%= render partial: 'form_edit', locals: { url: post_path(@post.id), method: :patch } %>
   </div>
 </div>
-
-<%= render 'shared/footer' %>
