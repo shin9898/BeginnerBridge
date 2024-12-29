@@ -1,6 +1,8 @@
-<% breadcrumb :mypage, current_user %>
 <div class="show-user-page">
-  <h1 class="page-title">マイページ</h1>
+  <div>
+    <div class="breadcrumb"><% breadcrumb :mypage, @user %></div>
+    <h1 class="page-title">マイページ</h1>
+  </div>
 
   <div class="user-info-container">
     <p><strong>ユーザー名:</strong> <%= @user.username %></p>
@@ -15,6 +17,22 @@
       <% end %>
     </p>
     <p><strong>自己紹介:</strong> <%= simple_format(@user.bio.presence || "未設定") %></p>
+    <% if current_user != @user %>
+      <% if @user.followed_by?(current_user) %>
+        <%=link_to "フォロー中", user_relationships_path(@user.id),class: "btn btn-secondary", data: { turbo_method: :delete } %>
+      <% else %>
+        <%=link_to "フォローする", user_relationships_path(@user.id),class: "btn btn-primary", data: { turbo_method: :post } %>
+      <% end %>
+    <% end %>
+    <p>フォロー（<%= @user.followings.count %>）</p>
+    <% @user.followings.limit(5).each do |user| %>
+      <p class=“f-user”><%= link_to user.username, user_path(user.id) %></p>
+    <% end %>
+    <p>フォロワー（<%= @user.followers.count %>）</p>
+    <% @user.followers.limit(5).each do |user| %>
+      <p class=“f-user”><%= link_to user.username, user_path(user.id) %></p>
+    <% end %>
+    <%= link_to "フォロー・フォロワー一覧へ", user_relationships_path(@user.id), class: "btn btn-link" %>
   </div>
 
   <% if user_signed_in? && current_user == @user %>

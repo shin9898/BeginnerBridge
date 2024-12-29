@@ -1,0 +1,140 @@
+.relationship-container {
+  margin: 20px;
+}
+
+.relationship-tabs {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  border: 1px solid #007BFF;
+  background-color: #f1f9ff;
+  text-decoration: none;
+  color: #007BFF;
+  font-weight: bold;
+  transition: all 0.3s;
+  border-radius: 5px;
+}
+
+.active-tab {
+  padding: 10px 20px;
+  border: 1px solid #f1f9ff;
+  background-color: #007BFF;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: all 0.3s;
+  border-radius: 5px;
+}
+
+.relationship-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info-username {
+  border-right: 1px solid #ccc;
+  padding: 20px;
+  font-size: 20px;
+  color: #0056b3;
+}
+
+.user-info-username a {
+  color: #007BFF;
+}
+
+.user-count-item{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-right: 1px solid #ccc;
+}
+
+.user-count-question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #198753;
+  padding: 10px;
+}
+
+.user-count-comment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #DC3444;
+  padding: 10px;
+}
+
+.user-count-question p {
+  margin: 5px 0 0;
+  font-size: 18px;
+  color: #198753;
+  font-weight: bold;
+}
+
+.user-count-comment p {
+  margin: 5px 0 0;
+  font-size: 18px;
+  color: #DC3444;
+  font-weight: bold;
+}
+
+.action-button {
+  text-align: right;
+}
+
+.user-link {
+  font-weight: bold;
+  color: #f1f9ff;
+  text-decoration: none;
+}
+
+.user-link:hover {
+  text-decoration: underline;
+}
+
+.btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  max-width: 300px;
+  color: #333;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #999;
+}
