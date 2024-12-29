@@ -37,4 +37,8 @@ class User < ApplicationRecord
     follower =  passive_relationships.find_by(following_id: user.id)
     return follower.present?
   end
+
+  def following?(user)
+    active_relationships.exists?(follower_id: user.id)
+  end
 end

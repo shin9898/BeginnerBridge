@@ -47,6 +47,11 @@ crumb :mypage do |user|
   parent :root
 end
 
+crumb :index_relationships do |user|
+  link "#{user.username}さんのフォロー・フォロワー一覧", user_relationships_path(user)
+  parent :mypage, user
+end
+
 crumb :edit_user do |user|
   link "プロフィール編集", edit_user_registration_path(user)
   parent :mypage, user

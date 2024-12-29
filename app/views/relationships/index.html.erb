@@ -1,0 +1,44 @@
+<% breadcrumb :index_relationships, @user %>
+<div class="relationship-container">
+  <h1><%= @user.username %>さんのフォロー・フォロワー</h1>
+  <div class="relationship-tabs">
+    <%= link_to 'フォロー', user_relationships_path(@user, tab: 'followings'), class: params[:tab] == 'followings' || params[:tab].nil? ? 'active-tab' : 'tab' %>
+    <%= link_to 'フォロワー', user_relationships_path(@user, tab: 'followers'), class: params[:tab] == 'followers' ? 'active-tab' : 'tab' %>
+  </div>
+
+  <% is_followers_tab = params[:tab] == 'followers' %>
+  <% users = is_followers_tab ? @followers : @followings %>
+
+  <!-- リスト表示 -->
+  <% if users.present? %>
+    <% users.each do |user| %>
+      <div class="relationship-item">
+        <div class="user-info">
+          <div class="user-info-username">
+            <%= link_to user.username, user_path(user), class: "user-link" %>
+          </div>
+          <div class="user-count-item">
+            <div class="user-count-question">
+              質問数 <p><%= user.posts.count %></p>
+            </div>
+            <div class="user-count-comment">
+              回答数 <p><%= user.comments.count %></p>
+            </div>
+          </div>
+        </div>
+        <%# このコードはフォロー機能の実装を保留するため、一時的にコメントアウトしています。 %>
+        <%# 再挑戦時にはこの部分を有効化します。 %>
+        <%# <div class="userfollow"> %>
+          <%# <% if current_user.following?(user) %>
+            <%# <%= link_to 'フォロー中', user_relationships_path(user_id: user.id), method: :delete, class: 'btn btn-secondary', data: { turbo: false } %>
+          <%# <% else  %>
+            <%# <%= link_to 'フォローする', user_relationships_path(user_id: user.id), method: :post, class: 'btn btn-primary', data: { turbo: false } %>
+          <%# <% end  %>
+        <%# </div> %>
+      </div>
+    <% end %>
+    <%= paginate users %>
+  <% else %>
+    <p>対象のユーザー件数は0件です。</p>
+  <% end %>
+</div>
