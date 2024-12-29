@@ -52,10 +52,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_29_062410) do
   create_table "likes", charset: "utf8", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "post_id"
-    t.bigint "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["comment_id"], name: "index_likes_on_comment_id"
     t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
@@ -120,7 +118,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_29_062410) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
-  add_foreign_key "likes", "comments"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "post_tag_relations", "posts"

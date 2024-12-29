@@ -1,0 +1,19 @@
+.post_likes {
+  font-size: 12px;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.post_likes.liked {
+  color: #007bff;
+}
+
+.like-btn {
+  margin: 5px 0;
+}
