@@ -1,0 +1,9 @@
+<% if user_signed_in? && post.liked_by?(current_user)%>
+  <%=link_to post_likes_path(post.id),  data: { turbo_method: :delete }, class: "post_likes liked" do %>
+    <i class="fas fa-heart"></i>
+  <% end %>
+<% else %>
+  <%=link_to post_likes_path(post.id), data: { turbo_method: :post }, class: "post_likes" do %>
+  <i class="far fa-heart"></i> いいねを送る
+  <% end %>
+<% end %>

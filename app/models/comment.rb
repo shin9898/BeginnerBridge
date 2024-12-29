@@ -6,10 +6,13 @@ class Comment < ApplicationRecord
 
   validates :content, presence: true, length: { maximum: 500 }
 
+  def liked_by?(user)
+    likes.where(user_id: user.id).exists?
+  end
+
   private
 
   def sanitize_content
-    # 両端の空白や余分な改行を削除
     self.content = content.strip.gsub(/\n+/, "\n")
   end
 

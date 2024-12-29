@@ -32,6 +32,9 @@
               <div class="question-bottom__content">
                 <%= post.content.truncate(20) %>
               </div>
+              <div id="like-btn<%= post.id %>" class="like-btn">
+                <%= render partial: "likes/like", locals: { post: post } %>
+              </div>
             </div>
           </div>
         </div>
