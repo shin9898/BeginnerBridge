@@ -91,3 +91,7 @@ gem "aws-sdk-s3", require: false
 gem 'ransack'
 gem "gretel"
 gem 'kaminari'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem "omniauth-rails_csrf_protection"
+gem 'omniauth', '~>2.1.1'
