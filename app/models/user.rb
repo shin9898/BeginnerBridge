@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook, :google_oauth2]
   # アソシエーション
   has_many :posts
   has_many :comments
@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: "Relationship", foreign_key: :follower_id
   has_many :followers, through: :passive_relationships, source: :following
   has_many :likes
+  has_many :sns_credentials
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :user_experience
@@ -29,6 +30,20 @@ class User < ApplicationRecord
   validates :site_url, format: { with: URI::DEFAULT_PARSER.make_regexp, message: "URLが無効です" }, allow_blank: true
   validates :bio, length: { maximum: 500 }, allow_blank: true
   validates_uniqueness_of :email, :username
+
+  def self.from_omniauth(auth)
+    sns = SnsCredential.where(provider: auth.provider, uid: auth.uid).first_or_create
+    user = User.where(email: auth.info.email).first_or_initialize(
+     username: auth.info.name,
+       email: auth.info.email
+   )
+
+    if user.persisted?
+      sns.user = user
+      sns.save
+    end
+    { user: user, sns: sns }
+  end
 
   def self.ransackable_attributes(auth_object = nil)
     ["username"]

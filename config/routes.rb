@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+   omniauth_callbacks: 'users/omniauth_callbacks',
+   registrations: 'users/registrations'
+ }
   root 'posts#index'
   resources :users, only: [:show, :edit, :update] do
     resource :relationships, only: [:create, :destroy]
