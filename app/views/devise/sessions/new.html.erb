@@ -1,9 +1,14 @@
 <% breadcrumb :login %>
 <div class="auth-page login-page">
   <h2 class="form-title">ログイン</h2>
-  <div class="sns_login">
-    <%= button_to 'Facebookでログイン', user_facebook_omniauth_authorize_path, data: { turbo: false } %>
-    <%= button_to 'Googleでログイン', user_google_oauth2_omniauth_authorize_path, data: { turbo: false } %>
+  <h5>SNSアカウントでログイン</h5>
+  <div class="sns-login">
+    <%= button_to user_facebook_omniauth_authorize_path, data: { turbo: false }, class: "sns-btn facebook-btn" do %>
+      <i class="fab fa-facebook-f"></i> Facebook
+    <% end %>
+    <%= button_to user_google_oauth2_omniauth_authorize_path, data: { turbo: false }, class: "sns-btn google-btn" do %>
+      <i class="fab fa-google"></i> Google
+    <% end %>
   </div>
   <% if flash[:notice].present? || flash[:alert].present? %>
     <div class="login-flash-message">

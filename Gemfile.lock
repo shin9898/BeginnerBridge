@@ -138,6 +138,8 @@ GEM
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
     ffi (1.17.1-x86_64-darwin)
+    font-awesome-sass (6.7.2)
+      sassc (~> 2.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     gretel (5.0.1)
@@ -392,6 +394,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
+  font-awesome-sass
   gretel
   image_processing (~> 1.2)
   importmap-rails
