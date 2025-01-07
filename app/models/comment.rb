@@ -6,10 +6,6 @@ class Comment < ApplicationRecord
 
   validates :content, presence: true, length: { maximum: 500 }
 
-  def liked_by?(user)
-    likes.where(user_id: user.id).exists?
-  end
-
   private
 
   def sanitize_content
