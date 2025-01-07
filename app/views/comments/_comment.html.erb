@@ -1,0 +1,4 @@
+<div class="show-comment">
+  <p class="show-author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %> (<%= comment.user.user_experience.name %>)</p>
+  <p><%= comment.content %></p>
+</div>

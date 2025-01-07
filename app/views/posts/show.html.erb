@@ -52,7 +52,7 @@
     <h4>コメント</h4>
     <div class="show-comment-form">
       <% if user_signed_in? %>
-        <%= form_with(model: [@post, @comment], local: true) do |f| %>
+        <%= form_with(model: [@post, @comment], id: "comment-form", local: true) do |f| %>
           <%= f.text_area :content, placeholder: 'コメントを入力してください' %>
           <%= f.submit 'コメントする', class: 'btn btn-primary' %>
         <% end %>
@@ -61,13 +61,13 @@
       <% end %>
     </div>
 
-    <ul class="show-comments">
+    <div id="comments" class="show-comments">
       <% @post.comments.each do |comment| %>
-        <li class="show-comment">
-          <p><strong class="show-author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %> (<%= @post.user.user_experience.name %>)</strong></p>
-          <span><%= simple_format(comment.content) %></span>
-        </li>
+        <div class="show-comment">
+          <p class="show-author"><%= link_to comment.user.username, "/users/#{comment.user_id}" %> (<%= comment.user.user_experience.name %>)</p>
+          <p><%= comment.content %></p>
+        </div>
       <% end %>
-    </ul>
+    </div>
   </div>
 </div>
