@@ -36,12 +36,14 @@ class PostForm
   end
 
   def update(params, post)
-    post.post_tag_relations.destroy_all
+    post.tags.clear
     tag_name = params.delete(:tag_name)
-    tag = Tag.where(tag_name: tag_name).first_or_initialize if tag_name.present?
-    tag.save if tag_name.present?
-    post.update(params)
-    PostTagRelation.create(post_id: post.id, tag_id: tag.id) if tag_name.present?
+    if tag_name.present?
+      tag = Tag.where(tag_name: tag_name).first_or_initialize
+      tag.save!
+      post.tags << tag
+    end
+    post.update!(params)
   end
 
   private
