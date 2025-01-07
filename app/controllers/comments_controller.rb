@@ -1,7 +1,10 @@
 class CommentsController < ApplicationController
   def create
-    comment = Comment.create(comment_params)
-    redirect_to "/posts/#{comment.post.id}"
+    @comment = Comment.new(comment_params)
+    if @comment.save
+      html = render_to_string(partial: 'comments/comment', locals: { comment: @comment })
+      ActionCable.server.broadcast "comment_channel", { html: html }
+    end
   end
   
   private
