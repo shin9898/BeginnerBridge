@@ -127,7 +127,7 @@
   margin-top: 20px;
   list-style: none;
   padding: 0;
-  max-width: 100%;
+  height: auto;
 }
 
 .show-comment {
@@ -142,7 +142,12 @@
   white-space: pre-wrap;
 }
 
-.show-comments .show-comment .author {
+.show-comment p {
+  margin: 5px 0;
+  padding: 0 10px;
+}
+
+.show-comment .show-author {
   font-weight: bold;
   color: #2c3e50;
 }
