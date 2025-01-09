@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   root 'posts#index'
   resources :users, only: [:show, :edit, :update] do
     resource :relationships, only: [:create, :destroy]
-    resources :relationships, only: [:index]
   end
 
   resources :posts do
