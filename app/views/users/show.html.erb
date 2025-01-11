@@ -19,9 +19,9 @@
     <p><strong>自己紹介:</strong> <%= simple_format(@user.bio.presence || "未設定") %></p>
     <% if current_user != @user %>
       <% if @user.followed_by?(current_user) %>
-        <%=link_to "フォロー中", user_relationships_path(@user.id),class: "btn btn-secondary", data: { turbo_method: :delete } %>
+        <%=link_to "フォロー中", user_relationships_path(@user.id),class: "btn btn-follow-secondary", data: { turbo_method: :delete } %>
       <% else %>
-        <%=link_to "フォローする", user_relationships_path(@user.id),class: "btn btn-primary", data: { turbo_method: :post } %>
+        <%=link_to "フォローする", user_relationships_path(@user.id),class: "btn btn-follow-primary", data: { turbo_method: :post } %>
       <% end %>
     <% end %>
     <p>フォロー（<%= @user.followings.count %>）</p>

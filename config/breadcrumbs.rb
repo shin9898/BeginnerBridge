@@ -18,7 +18,12 @@ crumb :new_post do
 end
 
 crumb :new_question_post do
-  link "質問する", new_question_posts_path
+  link "プログラミングについて質問する", new_question_posts_path
+  parent :new_post
+end
+
+crumb :new_other_question_post do
+  link "その他について質問する", new_other_question_posts_path
   parent :new_post
 end
 

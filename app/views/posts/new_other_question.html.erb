@@ -1,0 +1,14 @@
+<% breadcrumb :new_other_question_post %>
+<div class="opinion-main">
+  <div class="opinion-container">
+    <h2 class="opinion-title">プログラミング以外の質問を投稿する</h2>
+
+    <div class="opinion-description">
+      <h4>目的</h4>
+      <p>このフォームでは、おすすめの教材や動画、プログラミングスクールなどプログラミング以外について質問したい場合に投稿できます。</p>
+    </div>
+
+    <%= render partial: 'form_new_other_question', locals: {url: posts_path, method: :post} %>
+
+  </div>
+</div>
