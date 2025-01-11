@@ -17,6 +17,10 @@ class Post < ApplicationRecord
     post_category_id.to_i == 3
   end
 
+  def other_question?
+    post_category_id.to_i == 4
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["title"]
   end

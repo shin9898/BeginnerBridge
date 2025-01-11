@@ -4,15 +4,56 @@
 
   <div class="selection-container">
     <div class="selection-card">
-      <h2 class="card-title">質問する</h2>
-      <p class="card-description">プログラミングの質問を投稿して、他のユーザーから解答をもらいましょう。具体的な問題や課題を入力してください。</p>
-      <%= link_to '質問する', new_question_posts_path, class: 'btn btn-primary' %>
-    </div>
+        <h2 class="card-title">プログラミングの技術的な質問</h2>
+        <ul class="card-list">
+          <li class="card-list-item">コードの書き方やエラーの解決方法について質問したい。</li>
+          <li class="card-list-item">特定の機能の実装方法が分からない。</li>
+        </ul>
+        <div class="card-description">
+          <p class="card-paragraph">上記のようなお悩みを抱えている方はこちら。</p>
+          <p class="card-paragraph emphasized-paragraph">コード、エラーメッセージ、試したことなどを具体的に記述してください。（参考画像の投稿も可能です。）</p>
+          <hr>
+          <p class="card-paragraph">例）RailsでWebアプリを開発しているが、実装したい機能の実現方法が分からない。</p>
+          <hr>
+          <p class="card-paragraph">例）HTML／CSSで〇〇のような表示をさせたい。</p>
+          <hr>
+          <p class="card-paragraph">例）Railsで〇〇というエラーが発生して、色々試したが解決できない。</p>
+          <hr>
+        </div>
+        <div class="card-button-wrapper"> <%# 追加 %>
+          <%= link_to '技術的な質問をする', new_question_posts_path, class: 'btn btn-primary' %>
+        </div><%# 追加 %>
+      </div>
 
-    <div class="selection-card">
-      <h2 class="card-title">意見交換する</h2>
-      <p class="card-description">プログラミングに関する意見やアイデアをシェアしましょう。みんなで意見を交換して学びましょう。</p>
-      <%= link_to '意見交換する', new_opinion_posts_path, class: 'btn btn-secondary' %>
+      <div class="selection-card">
+        <h2 class="card-title">プログラミングの学習・キャリアなどに関する質問</h2>
+        <ul class="card-list">
+          <li class="card-list-item">おすすめのプログラミングスクールや教材を知りたい。</li>
+          <li class="card-list-item">未経験からプログラマーになるための方法を知りたい。</li>
+        </ul>
+        <div class="card-description">
+          <p class="card-paragraph">上記のように学習方法、キャリア、スクール選びなど、プログラミングに関する様々な相談はこちら。</p>
+          <hr>
+          <p class="card-paragraph">例）実務と遜色ないレベルで学ぶことができるプログラミングスクールはありますか？</p>
+          <hr>
+          <p class="card-paragraph">例）Pythonを学びたいのですが、おすすめの教材やYoutubeなどありますか？</p>
+          <hr>
+          <p class="card-paragraph">例）未経験からプログラミングを学ぶには何から始めれば良いですか？</p>
+          <hr>
+        </div>
+        <div class="card-button-wrapper">
+          <%= link_to '学習・キャリアなどについて質問する', new_other_question_posts_path, class: 'btn btn-primary' %>
+        </div>
+      </div>
+
+      <div class="selection-card-opinion">
+        <h2 class="card-title">意見交換をする</h2>
+        <p class="card-description">プログラミングに関する意見やアイデアをシェアしましょう。みんなで意見を交換して学びましょう。</p>
+          <hr>
+        <div class="card-button-wrapper">
+            <%= link_to '意見交換する', new_opinion_posts_path, class: 'btn btn-secondary' %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

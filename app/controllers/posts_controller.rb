@@ -1,11 +1,11 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [ :new, :new_question, :new_opinion, :create, :edit, :update, :destroy ]
+  before_action :authenticate_user!, only: [ :new, :new_question, :new_opinion, :new_other_question, :create, :edit, :update, :destroy ]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :check_user_permission, only: [:edit, :update, :destroy]
 
   def index
     if params[:category] == "質問"
-      @posts = @q.result.where(post_category_id: 2).order(created_at: :desc)
+      @posts = @q.result.where(post_category_id: [2, 4]).order(created_at: :desc)
     elsif params[:category] == "意見交換"
       @posts = @q.result.where(post_category_id: 3).order(created_at: :desc)
     else
@@ -17,6 +17,10 @@ class PostsController < ApplicationController
   end
 
   def new_question
+    @post_form = PostForm.new
+  end
+
+  def new_other_question
     @post_form = PostForm.new
   end
 
@@ -34,6 +38,8 @@ class PostsController < ApplicationController
         render :new_question, status: :unprocessable_entity
       elsif params[:post_type] == 'opinion'
         render :new_opinion, status: :unprocessable_entity
+      elsif params[:post_type] == 'other_question'
+        render :new_other_question, status: :unprocessable_entity
       else
         redirect_to new_post_path
       end
