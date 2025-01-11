@@ -25,6 +25,10 @@ class PostForm
     post_category_id.to_i == 3
   end
 
+  def other_question?
+    post_category_id.to_i == 4
+  end
+
   def save
     post = Post.create(title: title, content: content, post_category_id: post_category_id, 
                               source_code: source_code, goal: goal, attempts: attempts, user_id: user_id)

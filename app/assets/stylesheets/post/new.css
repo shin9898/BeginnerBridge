@@ -15,7 +15,6 @@
 .selection-container {
   display: flex;
   justify-content: space-around;
-  align-items: center;
   margin-top: 30px;
   gap: 20px;
   flex-wrap: wrap;
@@ -25,9 +24,19 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-  width: 250px;
+  padding: 40px;
+  width: 600px;
+  max-width: 100%;
+  min-height: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.selection-card-opinion {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 600px;
   max-width: 100%;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -37,17 +46,38 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.selection-card-opinion:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 .card-title {
-  font-size: 24px;
+  font-size: 22px;
+  padding-bottom: 10px;
   font-weight: bold;
+  text-align: center;
   color: #007bff;
   margin-bottom: 15px;
 }
 
-.card-description {
-  font-size: 14px;
+.card-list-item {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
   color: #555;
   margin-bottom: 20px;
+}
+
+.emphasized-paragraph {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.card-paragraph {
+  font-size: 14px;
+  text-align: left;
+  color: #555;
+  margin-bottom: 10px;
 }
 
 .btn {
@@ -73,4 +103,10 @@
 
 .btn-secondary:hover {
   background-color: #5a636a;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
 }

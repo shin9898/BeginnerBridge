@@ -128,13 +128,6 @@
   background-color: #0056b3;
 }
 
-.btn-secondary {
-  background-color: #ccc;
-  max-width: 300px;
-  color: #333;
-  border: none;
-}
-
 .btn-secondary:hover {
   background-color: #999;
 }

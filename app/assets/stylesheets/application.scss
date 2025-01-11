@@ -1,18 +1,29 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+/* shared (共通部品) */
+@import "shared/header.css";
+@import "shared/footer.css";
+@import "shared/error_messages.css";
 
+/* user */
+@import "user/edit.css";
+@import "user/login.css";
+@import "user/registration.css";
+@import "user/show.css";
+
+/* relationship */
+@import "relationship/index.css";
+
+/* like */
+@import "like/_like.css";
+
+/* post */
+@import "post/edit.css";
+@import "post/index.css";
+@import "post/new_opinion.css";
+@import "post/new_question.css";
+@import "post/search.css";
+@import "post/show.css";
+@import "post/new.css";
+
+/* Bootstrap (最後にインポート) */
 @import "bootstrap";
 @import "font-awesome";
