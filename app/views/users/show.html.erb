@@ -23,9 +23,9 @@
       <hr>
       <% if current_user != @user %>
         <% if @user.followed_by?(current_user) %>
-          <%= link_to "フォロー中", user_relationships_path(@user), method: :delete, class: "btn btn-follow-secondary" %>
+          <%=link_to "フォロー中", user_relationships_path(@user.id),class: "btn btn-follow-secondary", data: { turbo_method: :delete } %>
         <% else %>
-          <%= link_to "フォローする", user_relationships_path(@user), method: :post, class: "btn btn-follow-primary" %>
+          <%=link_to "フォローする", user_relationships_path(@user.id),class: "btn btn-follow-primary", data: { turbo_method: :post } %>
         <% end %>
       <% end %>
       <p>フォロー（<%= @user.followings.count %>）</p>
