@@ -1,4 +1,4 @@
-<% breadcrumb :search %>
+<div class="breadcrumbs"><% breadcrumb :search %></div>
 <div class="search-container">
   <!-- 検索結果タイトル -->
   <h2 class="search-title">「<%= @keyword.presence || '未入力' %>」の検索結果：<%= @posts.count %>件</h2>
