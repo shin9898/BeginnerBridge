@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: "Relationship", foreign_key: :follower_id
   has_many :followers, through: :passive_relationships, source: :following
   has_many :likes
+  has_many :liked_posts, through: :likes, source: :post
   has_many :sns_credentials
 
   extend ActiveHash::Associations::ActiveRecordExtensions

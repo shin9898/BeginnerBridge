@@ -1,43 +1,93 @@
-<div class="show-user-page">
-  <div>
-    <div class="breadcrumbs"><% breadcrumb :mypage, @user %></div>
-    <h1 class="page-title">マイページ</h1>
-  </div>
-
-  <div class="user-info-container">
-    <p><strong>ユーザー名:</strong> <%= @user.username %></p>
-    <p><strong>メールアドレス:</strong> <%= @user.email %></p>
-    <p><strong>経験:</strong> <%= @user.user_experience.name.presence || "未設定" %></p>
-    <p><strong>所属:</strong> <%= @user.affiliation.presence || "未設定" %></p>
-    <p><strong>サイトURL:</strong> 
-      <% if @user.site_url.present? %>
-        <%= link_to @user.site_url, @user.site_url, target: "_blank", rel: "noopener" %>
-      <% else %>
-        未設定
+<div class="breadcrumbs"><% breadcrumb :mypage, @user %></div>
+<h1 class="mypage-title">マイページ</h1>
+<div class="show-user-page-container">
+  <div class="show-user-page-left-container">
+    <div class="user-info-container">
+      <p><strong>ユーザー名:</strong> <%= @user.username %></p>
+      <hr>
+      <p><strong>メールアドレス:</strong> <%= @user.email %></p>
+      <hr>
+      <p><strong>経験:</strong> <%= @user.user_experience.name.presence || "未設定" %></p>
+      <hr>
+      <p><strong>所属:</strong> <%= @user.affiliation.presence || "未設定" %></p>
+      <hr>
+      <p><strong>サイトURL:</strong>
+        <% if @user.site_url.present? %>
+          <%= link_to @user.site_url, @user.site_url, target: "_blank", rel: "noopener" %>
+        <% else %>
+          未設定
+        <% end %>
+      </p>
+      <hr>
+      <p><strong>自己紹介:</strong> <%= simple_format(@user.bio.presence || "未設定") %></p>
+      <hr>
+      <% if current_user != @user %>
+        <% if @user.followed_by?(current_user) %>
+          <%= link_to "フォロー中", user_relationships_path(@user), method: :delete, class: "btn btn-follow-secondary" %>
+        <% else %>
+          <%= link_to "フォローする", user_relationships_path(@user), method: :post, class: "btn btn-follow-primary" %>
+        <% end %>
       <% end %>
-    </p>
-    <p><strong>自己紹介:</strong> <%= simple_format(@user.bio.presence || "未設定") %></p>
-    <% if current_user != @user %>
-      <% if @user.followed_by?(current_user) %>
-        <%=link_to "フォロー中", user_relationships_path(@user.id),class: "btn btn-follow-secondary", data: { turbo_method: :delete } %>
-      <% else %>
-        <%=link_to "フォローする", user_relationships_path(@user.id),class: "btn btn-follow-primary", data: { turbo_method: :post } %>
+      <p>フォロー（<%= @user.followings.count %>）</p>
+      <% @user.followings.limit(5).each do |user| %>
+        <p class="f-user"><%= link_to user.username, user_path(user) %></p>
       <% end %>
-    <% end %>
-    <p>フォロー（<%= @user.followings.count %>）</p>
-    <% @user.followings.limit(5).each do |user| %>
-      <p class=“f-user”><%= link_to user.username, user_path(user.id) %></p>
-    <% end %>
-    <p>フォロワー（<%= @user.followers.count %>）</p>
-    <% @user.followers.limit(5).each do |user| %>
-      <p class=“f-user”><%= link_to user.username, user_path(user.id) %></p>
-    <% end %>
-    <%= link_to "フォロー・フォロワー一覧へ", user_relationships_path(@user.id), class: "btn btn-link" %>
-  </div>
-
-  <% if user_signed_in? && current_user == @user %>
-    <div class="edit-button-container">
-      <%= link_to "ユーザー情報を編集する", edit_user_path(@user), class: "btn btn-secondary" %>
+      <hr>
+      <p>フォロワー（<%= @user.followers.count %>）</p>
+      <% @user.followers.limit(5).each do |user| %>
+        <p class="f-user"><%= link_to user.username, user_path(user) %></p>
+      <% end %>
+      <hr>
+      <%= link_to "フォロー・フォロワー一覧へ", user_relationships_path(@user), class: "btn btn-link" %>
+      <hr>
     </div>
-  <% end %>
+
+    <% if user_signed_in? && current_user == @user %>
+      <div class="edit-button-container">
+        <%= link_to "ユーザー情報を編集する", edit_user_path(@user), class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="show-user-page-right-container">
+    <h2>投稿一覧</h2>
+    <div class="post-filter">
+      <%= link_to "質問・意見交換", user_path(@user, filter: "posts"), class: "category-link #{params[:filter] == 'posts' ? 'active' : ''}" %>
+      <%= link_to "いいね", user_path(@user, filter: "likes"), class: "category-link #{params[:filter] == 'likes' ? 'active' : ''}" %>
+      <%= link_to "回答（コメント）", user_path(@user, filter: "comments"), class: "category-link #{params[:filter] == 'comments' ? 'active' : ''}" %>
+    </div>
+
+    <div class="user-show-post-contents">
+      <% if @posts.present? %>
+        <% @posts.each do |post| %>
+          <div class="user-show-post-content">
+            <div class="user-show-index-comment">
+              <div class="user-show-index-comment__num">
+                <%= post.comments&.count || 0 %>
+              </div>
+              <div class="user-show-index-comment__unit">
+                回答
+              </div>
+            </div>
+            <div class="user-show-question">
+              <div class="user-show-question-top">
+                <div class="user-show-question-top__title">
+                  <%= link_to post.title, post_path(post), class: "post-title-link" %>
+                </div>
+                <div class="user-show-question-top__name">
+                  <%= link_to post.user.username, "/users/#{post.user_id}", class: "post-username-link" %> (<%= post.user.user_experience.name %>)
+                </div>
+              </div>
+              <div class="user-show-question-bottom">
+                <div class="user-show-question-bottom__content">
+                  <%= post.content.truncate(20) %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p>投稿はありません。</p>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -1,24 +1,66 @@
-/* マイページ専用スタイル */
-.show-user-page {
-  background-color: #fff;
-  padding: 20px;
-  max-width: 700px;
-  margin: 50px auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.show-user-page .page-title {
+/* マイページ全体 */
+.mypage-title {
   font-size: 1.8rem;
   text-align: center;
   margin-bottom: 20px;
   color: #333;
 }
 
+.show-user-page-container {
+  margin: auto;
+  padding: 30px;
+  width: 1300px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.show-user-page-left-container {
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: calc(30% - 10px);
+  box-sizing: border-box;
+}
+
+.show-user-page-right-container {
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: calc(70% - 10px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+@media (max-width: 768px) {
+  .show-user-page-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .show-user-page-left-container,
+  .show-user-page-right-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+/* ユーザー情報 */
 .user-info-container p {
   font-size: 1rem;
   margin: 10px 0;
   line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .user-info-container strong {
@@ -34,6 +76,7 @@
   text-decoration: underline;
 }
 
+/* ボタン */
 .edit-button-container {
   text-align: center;
   margin-top: 20px;
@@ -99,4 +142,123 @@
     font-size: 12px;
     padding: 6px 12px;
   }
+}
+
+/* 投稿一覧のスタイル (post/index.css からコピー) */
+.post-filter {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.category-link {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #007BFF;
+  border-radius: 5px;
+  background-color: #f1f9ff;
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.category-link:hover {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+.category-link.active {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+.user-show-post-contents {
+  width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.user-show-post-content {
+  display: flex;
+  width: 100%;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.user-show-index-comment {
+  max-width: 70px;
+  height: 100%;
+  background-color: #0C6DFD;
+  color: #FFFFFF;
+  border-radius: 5px 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-show-index-comment__num {
+  font-size: 26px;
+  text-align: center;
+}
+
+.user-show-index-comment__unit {
+  width: 70px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.user-show-question {
+  width: calc(100% - 70px);
+  padding: 10px 15px;
+  border-radius: 0 5px 5px 0;
+  background-color: #F2F2F3;
+  box-sizing: border-box;
+}
+
+.user-show-question-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-show-question-top__title {
+  max-width: 500px;
+  font-size: 14px;
+}
+
+.user-show-post-title-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.user-show-post-title-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.user-show-question-top__name {
+  font-size: 12px;
+  text-align: right;
+}
+
+.user-show-post-username-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.user-show-question-top_name-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.user-show-question-bottom {
+  margin-top: 10px;
+}
+
+.user-show-question-bottom__content {
+  font-size: 12px;
 }
