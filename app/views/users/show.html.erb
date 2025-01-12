@@ -81,6 +81,12 @@
                 <div class="user-show-question-bottom__content">
                   <%= post.content.truncate(20) %>
                 </div>
+                <div class="user-show-question-under">
+                  <% post_category = PostCategory.find(post.post_category_id) %>
+                  <div class="user-show-post-category-name <%= post_category.name %>">
+                    <%= post_category.name %>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

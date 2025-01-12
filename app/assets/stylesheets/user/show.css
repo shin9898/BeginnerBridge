@@ -144,7 +144,7 @@
   }
 }
 
-/* 投稿一覧のスタイル (post/index.css からコピー) */
+/* 投稿一覧のスタイル */
 .post-filter {
   display: flex;
   justify-content: center;
@@ -261,4 +261,30 @@
 
 .user-show-question-bottom__content {
   font-size: 12px;
+}
+
+.user-show-question-under {
+  display: flex;
+  align-items: center;
+}
+
+.user-show-post-category-name {
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 4px;
+  border: #F2F2F3;
+  border-radius: 3px;
+  color: #FFFFFF;
+}
+
+.user-show-post-category-name.技術的な質問 {
+  background-color:#28a745;
+}
+
+.user-show-post-category-name.意見交換 {
+  background-color: #1D78FD;
+}
+
+.user-show-post-category-name.その他質問 {
+  background-color:#81C784;
 }

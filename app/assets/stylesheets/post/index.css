@@ -131,6 +131,32 @@
   margin-top: 10px;
 }
 
+.question-under {
+  display: flex;
+  align-items: center;
+}
+
+.post-category-name {
+  font-size: 12px;
+  margin-left: 20px;
+  padding: 4px;
+  border: #F2F2F3;
+  border-radius: 3px;
+  color: #FFFFFF;
+}
+
+.post-category-name.技術的な質問 {
+  background-color:#28a745;
+}
+
+.post-category-name.意見交換 {
+  background-color: #1D78FD;
+}
+
+.post-category-name.その他質問 {
+  background-color:#81C784;
+}
+
 .question-bottom__content {
   font-size: 12px;
 }
