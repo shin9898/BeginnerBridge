@@ -1,15 +1,6 @@
 /******************************************** 
   一覧画面
 *********************************************/
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .categories {
   display: flex;
   justify-content: center;
@@ -46,7 +37,7 @@ body {
 }
 
 .index-main {
-  padding: 90px 0;
+  padding: 20px;
   background-color: #F2F2F3;
 }
 
@@ -138,6 +129,32 @@ body {
 
 .question-bottom {
   margin-top: 10px;
+}
+
+.question-under {
+  display: flex;
+  align-items: center;
+}
+
+.post-category-name {
+  font-size: 12px;
+  margin-left: 20px;
+  padding: 4px;
+  border: #F2F2F3;
+  border-radius: 3px;
+  color: #FFFFFF;
+}
+
+.post-category-name.技術的な質問 {
+  background-color:#28a745;
+}
+
+.post-category-name.意見交換 {
+  background-color: #1D78FD;
+}
+
+.post-category-name.その他質問 {
+  background-color:#81C784;
 }
 
 .question-bottom__content {

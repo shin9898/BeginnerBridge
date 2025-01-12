@@ -4,7 +4,14 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @username = @user.username
+    @posts = case params[:filter]
+    when "likes"
+      @user.liked_posts
+    when "comments"
+       Post.joins(:comments).where(comments: { user_id: @user.id }).distinct
+    else
+      @user.posts
+    end
   end
 
   def edit

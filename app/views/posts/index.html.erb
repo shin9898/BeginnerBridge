@@ -32,8 +32,14 @@
               <div class="question-bottom__content">
                 <%= post.content.truncate(20) %>
               </div>
-              <div id="like-btn<%= post.id %>" class="like-btn">
-                <%= render partial: "likes/like", locals: { post: post } %>
+              <div class="question-under">
+                <div id="like-btn<%= post.id %>" class="like-btn">
+                  <%= render partial: "likes/like", locals: { post: post } %>
+                </div>
+                <% post_category = PostCategory.find(post.post_category_id) %>
+                <div class="post-category-name <%= post_category.name %>">
+                  <%= post_category.name %>
+                </div>
               </div>
             </div>
           </div>

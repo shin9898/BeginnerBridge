@@ -27,3 +27,12 @@
 /* Bootstrap (最後にインポート) */
 @import "bootstrap";
 @import "font-awesome";
+
+body {
+  padding-top: 200px;
+  background-color: #F2F2F3;
+}
+
+.breadcrumbs {
+  padding: 10px 25px;
+}
