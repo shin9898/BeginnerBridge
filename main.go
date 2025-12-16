@@ -8,8 +8,13 @@ import (
 )
 
 func main() {
+	// フォントを初期化
+	if err := game.InitFont(); err != nil {
+		log.Printf("フォント初期化エラー: %v", err)
+	}
+
 	ebiten.SetWindowSize(800, 600)
-	ebiten.SetWindowTitle("競走馬育成シミュレーション - Horse Racing Tycoon")
+	ebiten.SetWindowTitle("Derby Dream - Horse Racing Tycoon")
 	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeEnabled)
 
 	g := game.NewGame()

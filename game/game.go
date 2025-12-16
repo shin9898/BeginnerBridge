@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
@@ -42,6 +41,8 @@ var (
 	ColorPanelFrame = color.RGBA{139, 90, 43, 255}
 	ColorWhite      = color.RGBA{255, 255, 255, 255}
 	ColorLightGray  = color.RGBA{200, 200, 200, 255}
+	ColorOrange     = color.RGBA{255, 165, 0, 255}
+	ColorPurple     = color.RGBA{148, 0, 211, 255}
 )
 
 // Game はメインのゲーム構造体
@@ -132,45 +133,6 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return 800, 600
 }
 
-// === UI描画ヘルパー ===
-
-// drawPanel は装飾付きパネルを描画
-func drawPanel(screen *ebiten.Image, x, y, w, h float32) {
-	// 外枠（ゴールド）
-	vector.DrawFilledRect(screen, x, y, w, h, ColorPanelFrame, false)
-	// 内側の背景
-	vector.DrawFilledRect(screen, x+3, y+3, w-6, h-6, ColorPanelBg, false)
-	// 内側の装飾線
-	vector.DrawFilledRect(screen, x+6, y+6, w-12, 2, ColorDarkGold, false)
-	vector.DrawFilledRect(screen, x+6, y+h-8, w-12, 2, ColorDarkGold, false)
-}
-
-// drawButton は選択可能なボタンを描画
-func drawButton(screen *ebiten.Image, x, y, w, h float32, text string, selected bool) {
-	if selected {
-		vector.DrawFilledRect(screen, x, y, w, h, ColorGold, false)
-		vector.DrawFilledRect(screen, x+2, y+2, w-4, h-4, ColorDarkBrown, false)
-		ebitenutil.DebugPrintAt(screen, "> "+text, int(x)+10, int(y)+8)
-	} else {
-		vector.DrawFilledRect(screen, x, y, w, h, ColorBrown, false)
-		vector.DrawFilledRect(screen, x+2, y+2, w-4, h-4, ColorPanelBg, false)
-		ebitenutil.DebugPrintAt(screen, "  "+text, int(x)+10, int(y)+8)
-	}
-}
-
-// drawStatusBar はステータスバーを描画
-func drawStatusBar(screen *ebiten.Image, x, y, w float32, value int, maxValue int, barColor color.RGBA, label string) {
-	// ラベル
-	ebitenutil.DebugPrintAt(screen, label, int(x), int(y)-2)
-	// 背景バー
-	vector.DrawFilledRect(screen, x+70, y, w, 14, color.RGBA{30, 30, 30, 255}, false)
-	// 値バー
-	fillWidth := (float32(value) / float32(maxValue)) * w
-	vector.DrawFilledRect(screen, x+70, y, fillWidth, 14, barColor, false)
-	// 数値
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%d", value), int(x+w+80), int(y)-2)
-}
-
 // === タイトル画面 ===
 func (g *Game) updateTitle() {
 	if inpututil.IsKeyJustPressed(ebiten.KeyEnter) || inpututil.IsKeyJustPressed(ebiten.KeySpace) {
@@ -180,15 +142,14 @@ func (g *Game) updateTitle() {
 }
 
 func (g *Game) drawTitle(screen *ebiten.Image) {
-	// 背景グラデーション風
+	// 背景
 	screen.Fill(ColorDarkGreen)
 	vector.DrawFilledRect(screen, 0, 0, 800, 200, color.RGBA{0, 60, 0, 255}, false)
 	vector.DrawFilledRect(screen, 0, 400, 800, 200, color.RGBA{0, 80, 0, 255}, false)
 
-	// 競馬場のトラック（装飾）
+	// 競馬場のトラック
 	vector.DrawFilledRect(screen, 50, 180, 700, 120, ColorBrown, false)
 	vector.DrawFilledRect(screen, 60, 190, 680, 100, ColorDarkBrown, false)
-	// 白線
 	for i := 0; i < 7; i++ {
 		vector.DrawFilledRect(screen, float32(100+i*100), 235, 50, 3, ColorWhite, false)
 	}
@@ -200,36 +161,23 @@ func (g *Game) drawTitle(screen *ebiten.Image) {
 	g.drawHorseSprite(screen, horseX-180, 220, ColorDarkBrown)
 
 	// メインタイトルパネル
-	drawPanel(screen, 150, 320, 500, 250)
+	DrawPanel(screen, 150, 320, 500, 250)
 
-	// タイトルロゴ
-	ebitenutil.DebugPrintAt(screen, "╔═══════════════════════════════════════════╗", 170, 340)
-	ebitenutil.DebugPrintAt(screen, "║                                           ║", 170, 355)
-	ebitenutil.DebugPrintAt(screen, "║      DERBY DREAM  ダービードリーム        ║", 170, 370)
-	ebitenutil.DebugPrintAt(screen, "║                                           ║", 170, 385)
-	ebitenutil.DebugPrintAt(screen, "║        ～ 競走馬育成シミュレーション ～     ║", 170, 400)
-	ebitenutil.DebugPrintAt(screen, "║                                           ║", 170, 415)
-	ebitenutil.DebugPrintAt(screen, "╚═══════════════════════════════════════════╝", 170, 430)
+	// タイトル
+	DrawTextCentered(screen, "DERBY DREAM", 400, 360, 32, ColorGold)
+	DrawTextCentered(screen, "ダービードリーム", 400, 400, 24, ColorWhite)
+	DrawTextCentered(screen, "～ 競走馬育成シミュレーション ～", 400, 440, 16, ColorLightGray)
 
-	// 馬のASCIIアート
-	ebitenutil.DebugPrintAt(screen, "       ,--,", 200, 460)
-	ebitenutil.DebugPrintAt(screen, "      (o o)", 200, 475)
-	ebitenutil.DebugPrintAt(screen, " /---( )--/\\", 200, 490)
-	ebitenutil.DebugPrintAt(screen, " `===(_)=(_)~", 200, 505)
-
-	// スタートメッセージ（点滅）
+	// スタートメッセージ
 	if (g.animationTick/30)%2 == 0 {
-		ebitenutil.DebugPrintAt(screen, ">>> PRESS ENTER OR SPACE TO START <<<", 250, 540)
+		DrawTextCentered(screen, ">>> PRESS ENTER OR SPACE TO START <<<", 400, 520, 16, ColorGold)
 	}
 }
 
-// drawHorseSprite は簡易的な馬のスプライトを描画
+// drawHorseSprite は馬のスプライトを描画
 func (g *Game) drawHorseSprite(screen *ebiten.Image, x, y float32, c color.RGBA) {
-	// 胴体
 	vector.DrawFilledRect(screen, x, y, 40, 20, c, false)
-	// 頭
 	vector.DrawFilledRect(screen, x+35, y-5, 15, 15, c, false)
-	// 足（アニメーション）
 	legOffset := float32((g.animationTick / 5) % 4)
 	vector.DrawFilledRect(screen, x+5, y+20+legOffset, 5, 12-legOffset, c, false)
 	vector.DrawFilledRect(screen, x+30, y+20-legOffset, 5, 12+legOffset, c, false)
@@ -258,10 +206,9 @@ func (g *Game) updateTutorial() {
 
 func (g *Game) drawTutorial(screen *ebiten.Image) {
 	screen.Fill(ColorDarkGreen)
-	drawPanel(screen, 50, 50, 700, 500)
+	DrawPanel(screen, 50, 50, 700, 500)
 
-	// ページインジケーター
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("【 ゲームの遊び方 】 %d / 4", g.tutorialPage+1), 300, 70)
+	DrawTextCentered(screen, fmt.Sprintf("【 ゲームの遊び方 】 %d / 4", g.tutorialPage+1), 400, 80, 20, ColorGold)
 
 	// 進捗バー
 	for i := 0; i < 4; i++ {
@@ -269,10 +216,9 @@ func (g *Game) drawTutorial(screen *ebiten.Image) {
 		if i <= g.tutorialPage {
 			c = ColorGold
 		}
-		vector.DrawFilledRect(screen, float32(300+i*50), 95, 40, 8, c, false)
+		vector.DrawFilledRect(screen, float32(300+i*50), 105, 40, 8, c, false)
 	}
 
-	// ページ内容
 	switch g.tutorialPage {
 	case 0:
 		g.drawTutorialPage1(screen)
@@ -284,31 +230,27 @@ func (g *Game) drawTutorial(screen *ebiten.Image) {
 		g.drawTutorialPage4(screen)
 	}
 
-	// ナビゲーション
-	ebitenutil.DebugPrintAt(screen, "← →: ページ移動  |  Enter/Space: 次へ  |  Esc: スキップ", 200, 520)
+	DrawTextCentered(screen, "← →: ページ移動  |  Enter/Space: 次へ  |  Esc: スキップ", 400, 530, 14, ColorLightGray)
 }
 
 func (g *Game) drawTutorialPage1(screen *ebiten.Image) {
-	ebitenutil.DebugPrintAt(screen, "◆ ゲームの目的 ◆", 330, 130)
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 150, 150)
+	DrawTextCentered(screen, "◆ ゲームの目的 ◆", 400, 140, 20, ColorGold)
 
-	ebitenutil.DebugPrintAt(screen, "あなたは新人馬主です。", 200, 180)
-	ebitenutil.DebugPrintAt(screen, "3年間で愛馬を育て、G1レースでの勝利を目指しましょう！", 200, 210)
+	DrawText(screen, "あなたは新人馬主です。", 150, 180, ColorWhite)
+	DrawText(screen, "3年間で愛馬を育て、G1レースでの勝利を目指しましょう！", 150, 210, ColorWhite)
 
-	ebitenutil.DebugPrintAt(screen, "【 勝利条件 】", 200, 260)
-	ebitenutil.DebugPrintAt(screen, "・できるだけ多くのレースに勝利する", 220, 290)
-	ebitenutil.DebugPrintAt(screen, "・賞金を稼いで資金を増やす", 220, 320)
-	ebitenutil.DebugPrintAt(screen, "・G1レース（最高峰）での勝利を目指す", 220, 350)
+	DrawText(screen, "【 勝利条件 】", 150, 260, ColorGold)
+	DrawText(screen, "・できるだけ多くのレースに勝利する", 170, 295, ColorWhite)
+	DrawText(screen, "・賞金を稼いで資金を増やす", 170, 325, ColorWhite)
+	DrawText(screen, "・G1レース（最高峰）での勝利を目指す", 170, 355, ColorWhite)
 
-	ebitenutil.DebugPrintAt(screen, "期間: 3年間（1年 = 52週）", 200, 400)
-	ebitenutil.DebugPrintAt(screen, "毎週1つのアクションを選んで進めます", 200, 430)
+	DrawText(screen, "期間: 3年間（1年 = 52週）", 150, 410, ColorLightGray)
+	DrawText(screen, "毎週1つのアクションを選んで進めます", 150, 440, ColorLightGray)
 }
 
 func (g *Game) drawTutorialPage2(screen *ebiten.Image) {
-	ebitenutil.DebugPrintAt(screen, "◆ 育成システム ◆", 330, 130)
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 150, 150)
-
-	ebitenutil.DebugPrintAt(screen, "馬には5つのステータスがあります：", 200, 180)
+	DrawTextCentered(screen, "◆ 育成システム ◆", 400, 140, 20, ColorGold)
+	DrawText(screen, "馬には5つのステータスがあります：", 150, 180, ColorWhite)
 
 	stats := []struct {
 		name  string
@@ -317,57 +259,61 @@ func (g *Game) drawTutorialPage2(screen *ebiten.Image) {
 	}{
 		{"スピード", "最高速度に影響。レースの基本となる能力", ColorRed},
 		{"スタミナ", "持久力。長距離レースで重要", ColorGreen},
-		{"パワー", "加速力。スタートダッシュに影響", ColorBlue},
-		{"根性", "終盤の粘り強さ。逆転に必要", color.RGBA{255, 165, 0, 255}},
-		{"賢さ", "レース運びの安定性", color.RGBA{148, 0, 211, 255}},
+		{"パワー  ", "加速力。スタートダッシュに影響", ColorBlue},
+		{"根性    ", "終盤の粘り強さ。逆転に必要", ColorOrange},
+		{"賢さ    ", "レース運びの安定性", ColorPurple},
 	}
 
 	for i, s := range stats {
 		y := float32(220 + i*50)
-		vector.DrawFilledRect(screen, 200, y, 15, 15, s.color, false)
-		ebitenutil.DebugPrintAt(screen, s.name, 225, int(y)-2)
-		ebitenutil.DebugPrintAt(screen, s.desc, 320, int(y)-2)
+		vector.DrawFilledRect(screen, 150, y, 18, 18, s.color, false)
+		DrawText(screen, s.name, 180, float64(y), ColorWhite)
+		DrawText(screen, s.desc, 290, float64(y), ColorLightGray)
 	}
 
-	ebitenutil.DebugPrintAt(screen, "※ トレーニングで各ステータスを上げられます", 200, 480)
+	DrawText(screen, "※ トレーニングで各ステータスを上げられます", 150, 490, ColorGold)
 }
 
 func (g *Game) drawTutorialPage3(screen *ebiten.Image) {
-	ebitenutil.DebugPrintAt(screen, "◆ 毎週のアクション ◆", 320, 130)
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 150, 150)
+	DrawTextCentered(screen, "◆ 毎週のアクション ◆", 400, 140, 20, ColorGold)
+	DrawText(screen, "毎週、以下の3つから1つを選びます：", 150, 180, ColorWhite)
 
-	ebitenutil.DebugPrintAt(screen, "毎週、以下の3つから1つを選びます：", 200, 180)
+	DrawText(screen, "[1] トレーニング", 150, 230, ColorGold)
+	DrawText(screen, "    → ステータスを上げる（疲労が溜まる）", 150, 260, ColorLightGray)
 
-	ebitenutil.DebugPrintAt(screen, "[1] トレーニング", 200, 230)
-	ebitenutil.DebugPrintAt(screen, "    → ステータスを上げる（疲労が溜まる）", 200, 255)
+	DrawText(screen, "[2] レース出走", 150, 310, ColorGold)
+	DrawText(screen, "    → 勝てば賞金獲得！（疲労が溜まる）", 150, 340, ColorLightGray)
 
-	ebitenutil.DebugPrintAt(screen, "[2] レース出走", 200, 300)
-	ebitenutil.DebugPrintAt(screen, "    → 勝てば賞金獲得！（疲労が溜まる）", 200, 325)
+	DrawText(screen, "[3] 休養", 150, 390, ColorGold)
+	DrawText(screen, "    → 疲労を回復、調子を整える", 150, 420, ColorLightGray)
 
-	ebitenutil.DebugPrintAt(screen, "[3] 休養", 200, 370)
-	ebitenutil.DebugPrintAt(screen, "    → 疲労を回復、調子を整える", 200, 395)
-
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 150, 430)
-	ebitenutil.DebugPrintAt(screen, "※ 疲労が高いと調子が下がりやすくなります！", 200, 460)
-	ebitenutil.DebugPrintAt(screen, "   バランスよく育成と休養を行いましょう", 200, 485)
+	DrawText(screen, "※ 疲労が高いと調子が下がりやすくなります！", 150, 470, ColorOrange)
+	DrawText(screen, "   バランスよく育成と休養を行いましょう", 150, 495, ColorLightGray)
 }
 
 func (g *Game) drawTutorialPage4(screen *ebiten.Image) {
-	ebitenutil.DebugPrintAt(screen, "◆ レースについて ◆", 325, 130)
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 150, 150)
+	DrawTextCentered(screen, "◆ レースについて ◆", 400, 140, 20, ColorGold)
+	DrawText(screen, "レースには3つのグレードがあります：", 150, 180, ColorWhite)
 
-	ebitenutil.DebugPrintAt(screen, "レースには3つのグレードがあります：", 200, 180)
+	// G3
+	vector.DrawFilledRect(screen, 170, 220, 40, 22, color.RGBA{205, 127, 50, 255}, false)
+	DrawText(screen, "G3", 178, 222, ColorWhite)
+	DrawText(screen, "入門レベル   賞金: 3,000円", 230, 222, ColorWhite)
 
-	ebitenutil.DebugPrintAt(screen, "【G3】 入門レベル   賞金: 3,000円", 220, 220)
-	ebitenutil.DebugPrintAt(screen, "【G2】 中級レベル   賞金: 8,000円", 220, 250)
-	ebitenutil.DebugPrintAt(screen, "【G1】 最高峰！     賞金: 20,000円", 220, 280)
+	// G2
+	vector.DrawFilledRect(screen, 170, 255, 40, 22, color.RGBA{192, 192, 192, 255}, false)
+	DrawText(screen, "G2", 178, 257, ColorPanelBg)
+	DrawText(screen, "中級レベル   賞金: 8,000円", 230, 257, ColorWhite)
 
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 150, 320)
-	ebitenutil.DebugPrintAt(screen, "【 賞金 】", 200, 350)
-	ebitenutil.DebugPrintAt(screen, "1位: 100%  |  2位: 50%  |  3位: 25%", 220, 380)
+	// G1
+	vector.DrawFilledRect(screen, 170, 290, 40, 22, ColorGold, false)
+	DrawText(screen, "G1", 178, 292, ColorPanelBg)
+	DrawText(screen, "最高峰！     賞金: 20,000円", 230, 292, ColorGold)
 
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 150, 420)
-	ebitenutil.DebugPrintAt(screen, "準備はいいですか？ 愛馬の名前を決めましょう！", 200, 460)
+	DrawText(screen, "【 賞金配分 】", 150, 350, ColorGold)
+	DrawText(screen, "1位: 100%  |  2位: 50%  |  3位: 25%", 170, 385, ColorWhite)
+
+	DrawText(screen, "準備はいいですか？ 愛馬の名前を決めましょう！", 150, 450, ColorGold)
 }
 
 // === 名前入力画面 ===
@@ -395,26 +341,21 @@ func (g *Game) updateNaming() {
 
 func (g *Game) drawNaming(screen *ebiten.Image) {
 	screen.Fill(ColorDarkGreen)
-	drawPanel(screen, 150, 80, 500, 440)
+	DrawPanel(screen, 150, 80, 500, 440)
 
-	ebitenutil.DebugPrintAt(screen, "╔════════════════════════════════════╗", 180, 100)
-	ebitenutil.DebugPrintAt(screen, "║      愛馬の名前を選んでください      ║", 180, 115)
-	ebitenutil.DebugPrintAt(screen, "╚════════════════════════════════════╝", 180, 130)
-
-	ebitenutil.DebugPrintAt(screen, "この馬と3年間の旅を共にします", 250, 165)
+	DrawTextCentered(screen, "愛馬の名前を選んでください", 400, 110, 20, ColorGold)
+	DrawTextCentered(screen, "この馬と3年間の旅を共にします", 400, 145, 14, ColorLightGray)
 
 	names := []string{"ゴールドスター", "サンダーボルト", "ミラクルホープ", "ドリームチェイサー", "フェニックス"}
 
 	for i, name := range names {
-		drawButton(screen, 250, float32(210+i*45), 300, 35, name, i == g.selectedIdx)
+		DrawButton(screen, 250, float32(190+i*50), 300, 40, name, i == g.selectedIdx)
 	}
 
-	// 選択中の馬のイメージ
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━", 250, 440)
-	ebitenutil.DebugPrintAt(screen, "あなたの愛馬:", 280, 460)
-	ebitenutil.DebugPrintAt(screen, "「"+names[g.selectedIdx]+"」", 380, 460)
+	DrawText(screen, "あなたの愛馬:", 260, 450, ColorLightGray)
+	DrawText(screen, "「"+names[g.selectedIdx]+"」", 380, 450, ColorGold)
 
-	ebitenutil.DebugPrintAt(screen, "↑↓: 選択  |  Enter: 決定", 290, 500)
+	DrawTextCentered(screen, "↑↓: 選択  |  Enter: 決定", 400, 500, 14, ColorLightGray)
 }
 
 // === メイン画面 ===
@@ -441,35 +382,32 @@ func (g *Game) updateMain() {
 func (g *Game) drawMain(screen *ebiten.Image) {
 	screen.Fill(ColorDarkGreen)
 
-	// ヘッダー情報バー
-	vector.DrawFilledRect(screen, 0, 0, 800, 45, ColorPanelBg, false)
-	vector.DrawFilledRect(screen, 0, 43, 800, 2, ColorGold, false)
+	// ヘッダー
+	vector.DrawFilledRect(screen, 0, 0, 800, 50, ColorPanelBg, false)
+	vector.DrawFilledRect(screen, 0, 48, 800, 2, ColorGold, false)
 
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("【 %d年目 第%d週 】", g.year, g.week), 20, 15)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("資金: %d円", g.money), 250, 15)
-	// 残り週数表示
+	DrawText(screen, fmt.Sprintf("【 %d年目 第%d週 】", g.year, g.week), 20, 18, ColorWhite)
+	DrawText(screen, fmt.Sprintf("資金: %d円", g.money), 220, 18, ColorGold)
 	remainingWeeks := (3-g.year)*52 + (52 - g.week)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("残り: %d週", remainingWeeks), 450, 15)
+	DrawText(screen, fmt.Sprintf("残り: %d週", remainingWeeks), 420, 18, ColorLightGray)
 
 	// 愛馬ステータスパネル
-	drawPanel(screen, 20, 60, 450, 280)
-	ebitenutil.DebugPrintAt(screen, "━━━ 愛馬ステータス ━━━", 140, 75)
+	DrawPanel(screen, 20, 65, 460, 280)
+	DrawTextCentered(screen, "愛馬ステータス", 250, 80, 18, ColorGold)
 
 	if g.playerHorse != nil {
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("【 %s 】  %d歳", g.playerHorse.Name, g.playerHorse.Age), 50, 105)
+		DrawText(screen, fmt.Sprintf("【 %s 】  %d歳", g.playerHorse.Name, g.playerHorse.Age), 40, 110, ColorWhite)
 
 		// ステータスバー
-		drawStatusBar(screen, 50, 140, 120, g.playerHorse.Speed, 100, ColorRed, "スピード")
-		drawStatusBar(screen, 50, 165, 120, g.playerHorse.Stamina, 100, ColorGreen, "スタミナ")
-		drawStatusBar(screen, 50, 190, 120, g.playerHorse.Power, 100, ColorBlue, "パワー  ")
-		drawStatusBar(screen, 50, 215, 120, g.playerHorse.Guts, 100, color.RGBA{255, 165, 0, 255}, "根性    ")
-		drawStatusBar(screen, 50, 240, 120, g.playerHorse.Wisdom, 100, color.RGBA{148, 0, 211, 255}, "賢さ    ")
+		DrawStatusBar(screen, 40, 145, 130, g.playerHorse.Speed, 100, ColorRed, "スピード")
+		DrawStatusBar(screen, 40, 172, 130, g.playerHorse.Stamina, 100, ColorGreen, "スタミナ")
+		DrawStatusBar(screen, 40, 199, 130, g.playerHorse.Power, 100, ColorBlue, "パワー  ")
+		DrawStatusBar(screen, 40, 226, 130, g.playerHorse.Guts, 100, ColorOrange, "根性    ")
+		DrawStatusBar(screen, 40, 253, 130, g.playerHorse.Wisdom, 100, ColorPurple, "賢さ    ")
 
-		// 総合値
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("総合値: %d", g.playerHorse.TotalStats()), 280, 140)
+		// 右側の情報
+		DrawText(screen, fmt.Sprintf("総合値: %d", g.playerHorse.TotalStats()), 290, 145, ColorGold)
 
-		// コンディション
-		ebitenutil.DebugPrintAt(screen, "──────────────", 280, 165)
 		moodText := "普通"
 		moodColor := ColorWhite
 		if g.playerHorse.Mood >= 80 {
@@ -482,66 +420,67 @@ func (g *Game) drawMain(screen *ebiten.Image) {
 			moodText = "不調..."
 			moodColor = ColorRed
 		}
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("調子: %s (%d%%)", moodText, g.playerHorse.Mood), 280, 185)
-		_ = moodColor // 色は将来的に使用
+		DrawText(screen, fmt.Sprintf("調子: %s (%d%%)", moodText, g.playerHorse.Mood), 290, 180, moodColor)
 
-		// 疲労警告
 		fatigueText := "元気"
+		fatigueColor := ColorGreen
 		if g.playerHorse.Fatigue >= 70 {
-			fatigueText = "疲労困憊！休養推奨"
+			fatigueText = "疲労困憊！"
+			fatigueColor = ColorRed
 		} else if g.playerHorse.Fatigue >= 50 {
-			fatigueText = "やや疲れ気味"
+			fatigueText = "やや疲れ"
+			fatigueColor = ColorOrange
 		} else if g.playerHorse.Fatigue >= 30 {
 			fatigueText = "少し疲労"
+			fatigueColor = ColorLightGray
 		}
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("疲労: %s (%d%%)", fatigueText, g.playerHorse.Fatigue), 280, 210)
+		DrawText(screen, fmt.Sprintf("疲労: %s (%d%%)", fatigueText, g.playerHorse.Fatigue), 290, 215, fatigueColor)
 
-		// 戦績
-		ebitenutil.DebugPrintAt(screen, "──────────────", 280, 235)
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("戦績: %d戦 %d勝", g.playerHorse.Races, g.playerHorse.Wins), 280, 255)
+		DrawText(screen, fmt.Sprintf("戦績: %d戦 %d勝", g.playerHorse.Races, g.playerHorse.Wins), 290, 260, ColorWhite)
 		if g.playerHorse.Races > 0 {
 			winRate := float64(g.playerHorse.Wins) / float64(g.playerHorse.Races) * 100
-			ebitenutil.DebugPrintAt(screen, fmt.Sprintf("勝率: %.1f%%", winRate), 280, 280)
+			DrawText(screen, fmt.Sprintf("勝率: %.1f%%", winRate), 290, 290, ColorLightGray)
 		}
 	}
 
 	// アクションパネル
-	drawPanel(screen, 490, 60, 290, 280)
-	ebitenutil.DebugPrintAt(screen, "━━━ アクション ━━━", 550, 75)
+	DrawPanel(screen, 500, 65, 280, 280)
+	DrawTextCentered(screen, "アクション", 640, 80, 18, ColorGold)
 
-	ebitenutil.DebugPrintAt(screen, "[1] トレーニング", 510, 115)
-	ebitenutil.DebugPrintAt(screen, "    能力を上げる", 510, 135)
+	DrawText(screen, "[1] トレーニング", 520, 120, ColorWhite)
+	DrawText(screen, "    能力を上げる", 520, 145, ColorLightGray)
 
-	ebitenutil.DebugPrintAt(screen, "[2] レースに出走", 510, 175)
-	ebitenutil.DebugPrintAt(screen, "    賞金を獲得", 510, 195)
+	DrawText(screen, "[2] レースに出走", 520, 185, ColorWhite)
+	DrawText(screen, "    賞金を獲得", 520, 210, ColorLightGray)
 
-	ebitenutil.DebugPrintAt(screen, "[3] 休養する", 510, 235)
-	ebitenutil.DebugPrintAt(screen, "    疲労回復・調子UP", 510, 255)
+	DrawText(screen, "[3] 休養する", 520, 250, ColorWhite)
+	DrawText(screen, "    疲労回復・調子UP", 520, 275, ColorLightGray)
 
-	ebitenutil.DebugPrintAt(screen, "──────────────────", 510, 285)
-	ebitenutil.DebugPrintAt(screen, "数字キーで選択", 550, 305)
+	DrawTextCentered(screen, "数字キーで選択", 640, 310, 12, ColorLightGray)
 
 	// メッセージパネル
 	if g.message != "" {
-		drawPanel(screen, 20, 360, 760, 80)
-		ebitenutil.DebugPrintAt(screen, "【 メッセージ 】", 350, 375)
-		ebitenutil.DebugPrintAt(screen, g.message, 40, 405)
+		DrawPanel(screen, 20, 365, 760, 80)
+		DrawTextCentered(screen, "【 メッセージ 】", 400, 380, 14, ColorGold)
+		DrawText(screen, g.message, 40, 410, ColorWhite)
 	}
 
-	// ヒント
-	drawPanel(screen, 20, 460, 760, 120)
-	ebitenutil.DebugPrintAt(screen, "【 ヒント 】", 365, 475)
+	// ヒントパネル
+	DrawPanel(screen, 20, 465, 760, 115)
+	DrawTextCentered(screen, "【 ヒント 】", 400, 480, 14, ColorGold)
 	if g.playerHorse != nil {
+		var hint string
 		if g.playerHorse.Fatigue >= 70 {
-			ebitenutil.DebugPrintAt(screen, "疲労が溜まっています。[3]休養 で回復しましょう！", 150, 505)
+			hint = "疲労が溜まっています。[3]休養 で回復しましょう！"
 		} else if g.playerHorse.TotalStats() < 200 {
-			ebitenutil.DebugPrintAt(screen, "まだ能力が低いです。[1]トレーニング で鍛えましょう！", 150, 505)
+			hint = "まだ能力が低いです。[1]トレーニング で鍛えましょう！"
 		} else if g.playerHorse.Races == 0 {
-			ebitenutil.DebugPrintAt(screen, "そろそろレースに挑戦してみましょう！[2]レース出走", 150, 505)
+			hint = "そろそろレースに挑戦してみましょう！[2]レース出走"
 		} else {
-			ebitenutil.DebugPrintAt(screen, "G1レースでの勝利を目指して頑張りましょう！", 180, 505)
+			hint = "G1レースでの勝利を目指して頑張りましょう！"
 		}
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("目標: G1レース制覇！ (有馬記念、日本ダービーなど)"), 180, 535)
+		DrawTextCentered(screen, hint, 400, 510, 16, ColorWhite)
+		DrawTextCentered(screen, "目標: G1レース制覇！ (有馬記念、日本ダービーなど)", 400, 545, 14, ColorGold)
 	}
 }
 
@@ -575,35 +514,33 @@ func (g *Game) updateTraining() {
 
 func (g *Game) drawTraining(screen *ebiten.Image) {
 	screen.Fill(ColorDarkGreen)
-	drawPanel(screen, 100, 50, 600, 500)
+	DrawPanel(screen, 100, 50, 600, 500)
 
-	ebitenutil.DebugPrintAt(screen, "╔════════════════════════════════════════╗", 150, 70)
-	ebitenutil.DebugPrintAt(screen, "║          トレーニング選択              ║", 150, 85)
-	ebitenutil.DebugPrintAt(screen, "╚════════════════════════════════════════╝", 150, 100)
+	DrawTextCentered(screen, "トレーニング選択", 400, 80, 24, ColorGold)
 
 	trainings := []struct {
-		name   string
-		desc   string
-		stat   int
-		color  color.RGBA
+		name  string
+		desc  string
+		stat  int
+		color color.RGBA
 	}{
 		{"スピード", "最高速度UP → レースの基本能力", g.playerHorse.Speed, ColorRed},
 		{"スタミナ", "持久力UP   → 長距離で有利", g.playerHorse.Stamina, ColorGreen},
-		{"パワー", "加速力UP   → スタート有利", g.playerHorse.Power, ColorBlue},
-		{"根性", "粘り強さUP → 終盤の追い込み", g.playerHorse.Guts, color.RGBA{255, 165, 0, 255}},
-		{"賢さ", "安定性UP   → 実力を発揮しやすい", g.playerHorse.Wisdom, color.RGBA{148, 0, 211, 255}},
+		{"パワー  ", "加速力UP   → スタート有利", g.playerHorse.Power, ColorBlue},
+		{"根性    ", "粘り強さUP → 終盤の追い込み", g.playerHorse.Guts, ColorOrange},
+		{"賢さ    ", "安定性UP   → 実力を発揮しやすい", g.playerHorse.Wisdom, ColorPurple},
 	}
 
 	for i, t := range trainings {
-		y := float32(140 + i*60)
+		y := float32(130 + i*65)
 		selected := i == g.selectedIdx
 
 		if selected {
-			vector.DrawFilledRect(screen, 130, y, 540, 50, ColorGold, false)
-			vector.DrawFilledRect(screen, 133, y+3, 534, 44, ColorDarkBrown, false)
+			vector.DrawFilledRect(screen, 130, y, 540, 55, ColorGold, false)
+			vector.DrawFilledRect(screen, 133, y+3, 534, 49, ColorDarkBrown, false)
 		} else {
-			vector.DrawFilledRect(screen, 130, y, 540, 50, ColorBrown, false)
-			vector.DrawFilledRect(screen, 133, y+3, 534, 44, ColorPanelBg, false)
+			vector.DrawFilledRect(screen, 130, y, 540, 55, ColorBrown, false)
+			vector.DrawFilledRect(screen, 133, y+3, 534, 49, ColorPanelBg, false)
 		}
 
 		prefix := "  "
@@ -611,31 +548,29 @@ func (g *Game) drawTraining(screen *ebiten.Image) {
 			prefix = "> "
 		}
 
-		// ステータス名と色インジケーター
-		vector.DrawFilledRect(screen, 145, y+10, 12, 12, t.color, false)
-		ebitenutil.DebugPrintAt(screen, prefix+t.name, 165, int(y)+8)
-		ebitenutil.DebugPrintAt(screen, t.desc, 280, int(y)+8)
+		vector.DrawFilledRect(screen, 150, y+12, 14, 14, t.color, false)
+		DrawText(screen, prefix+t.name, 175, float64(y)+10, ColorWhite)
+		DrawText(screen, t.desc, 300, float64(y)+10, ColorLightGray)
 
 		// 現在値バー
-		barWidth := float32(t.stat) * 1.5
-		vector.DrawFilledRect(screen, 145, y+30, 150, 10, color.RGBA{30, 30, 30, 255}, false)
-		vector.DrawFilledRect(screen, 145, y+30, barWidth, 10, t.color, false)
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%d", t.stat), 305, int(y)+26)
+		barWidth := float32(t.stat) * 1.8
+		vector.DrawFilledRect(screen, 150, y+35, 180, 12, color.RGBA{30, 30, 30, 255}, false)
+		vector.DrawFilledRect(screen, 150, y+35, barWidth, 12, t.color, false)
+		DrawText(screen, fmt.Sprintf("%d", t.stat), 345, float64(y)+32, ColorWhite)
 	}
 
 	// 戻るボタン
-	drawButton(screen, 300, 450, 200, 35, "戻る", g.selectedIdx == 5)
+	DrawButton(screen, 300, 460, 200, 35, "戻る", g.selectedIdx == 5)
 
-	// コンディション表示
-	vector.DrawFilledRect(screen, 130, 500, 540, 40, color.RGBA{0, 0, 0, 100}, false)
+	// コンディション
 	fatigueWarning := ""
 	if g.playerHorse.Fatigue >= 70 {
-		fatigueWarning = " ⚠ 疲労が高いです！休養を推奨"
+		fatigueWarning = " ⚠ 休養推奨！"
 	}
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("現在の疲労: %d%%  調子: %d%%%s",
-		g.playerHorse.Fatigue, g.playerHorse.Mood, fatigueWarning), 150, 510)
+	DrawTextCentered(screen, fmt.Sprintf("疲労: %d%%  調子: %d%%%s",
+		g.playerHorse.Fatigue, g.playerHorse.Mood, fatigueWarning), 400, 510, 14, ColorOrange)
 
-	ebitenutil.DebugPrintAt(screen, "↑↓: 選択  |  Enter: 決定  |  Esc: 戻る", 260, 555)
+	DrawTextCentered(screen, "↑↓: 選択  |  Enter: 決定  |  Esc: 戻る", 400, 535, 12, ColorLightGray)
 }
 
 // === レース選択画面 ===
@@ -670,21 +605,17 @@ func (g *Game) updateRaceSelect() {
 
 func (g *Game) drawRaceSelect(screen *ebiten.Image) {
 	screen.Fill(ColorDarkGreen)
-	drawPanel(screen, 50, 30, 700, 540)
+	DrawPanel(screen, 50, 30, 700, 540)
 
-	ebitenutil.DebugPrintAt(screen, "╔════════════════════════════════════════════════════╗", 100, 50)
-	ebitenutil.DebugPrintAt(screen, "║              レ ー ス 選 択                        ║", 100, 65)
-	ebitenutil.DebugPrintAt(screen, "╚════════════════════════════════════════════════════╝", 100, 80)
+	DrawTextCentered(screen, "レ ー ス 選 択", 400, 55, 24, ColorGold)
 
 	// ヘッダー
-	ebitenutil.DebugPrintAt(screen, "グレード    レース名          距離     賞金", 120, 110)
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 100, 125)
+	DrawText(screen, "グレード      レース名              距離       賞金", 100, 90, ColorLightGray)
 
 	for i, race := range AvailableRaces {
-		y := float32(140 + i*35)
+		y := float32(115 + i*38)
 		selected := i == g.selectedIdx
 
-		// グレードに応じた色
 		gradeColor := ColorWhite
 		switch race.Grade {
 		case GradeG1:
@@ -696,42 +627,42 @@ func (g *Game) drawRaceSelect(screen *ebiten.Image) {
 		}
 
 		if selected {
-			vector.DrawFilledRect(screen, 80, y, 640, 30, ColorGold, false)
-			vector.DrawFilledRect(screen, 83, y+2, 634, 26, ColorDarkBrown, false)
+			vector.DrawFilledRect(screen, 80, y, 640, 33, ColorGold, false)
+			vector.DrawFilledRect(screen, 83, y+2, 634, 29, ColorDarkBrown, false)
 		}
+
+		// グレードバッジ
+		vector.DrawFilledRect(screen, 100, y+6, 40, 20, gradeColor, false)
+		DrawText(screen, race.Grade.String(), 108, float64(y)+8, ColorPanelBg)
 
 		prefix := "  "
 		if selected {
 			prefix = "> "
 		}
 
-		// グレードバッジ
-		vector.DrawFilledRect(screen, 95, y+5, 35, 18, gradeColor, false)
-		ebitenutil.DebugPrintAt(screen, race.Grade.String(), 100, int(y)+6)
-
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%s%-14s  %4dm   %6d円",
-			prefix, race.Name, race.Distance, race.Grade.Prize()), 140, int(y)+6)
+		DrawText(screen, fmt.Sprintf("%s%-12s    %4dm    %6d円",
+			prefix, race.Name, race.Distance, race.Grade.Prize()), 155, float64(y)+8, ColorWhite)
 	}
 
 	// 戻るボタン
-	y := float32(140 + len(AvailableRaces)*35 + 10)
-	drawButton(screen, 300, y, 200, 35, "戻る", g.selectedIdx == len(AvailableRaces))
+	y := float32(115 + len(AvailableRaces)*38 + 10)
+	DrawButton(screen, 300, y, 200, 35, "戻る", g.selectedIdx == len(AvailableRaces))
 
 	// 選択中のレース情報
 	if g.selectedIdx < len(AvailableRaces) {
 		race := AvailableRaces[g.selectedIdx]
-		vector.DrawFilledRect(screen, 80, 515, 640, 45, color.RGBA{0, 0, 0, 150}, false)
+		vector.DrawFilledRect(screen, 80, 520, 640, 40, color.RGBA{0, 0, 0, 150}, false)
 		difficulty := "普通"
 		if race.Grade == GradeG1 {
 			difficulty = "最高難度"
 		} else if race.Grade == GradeG2 {
-			difficulty = "やや難しい"
+			difficulty = "やや難"
 		}
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("【%s】 難易度: %s | 賞金: 1位 %d円 / 2位 %d円 / 3位 %d円",
-			race.Name, difficulty, race.Grade.Prize(), race.Grade.Prize()/2, race.Grade.Prize()/4), 100, 525)
+		DrawText(screen, fmt.Sprintf("【%s】 難易度:%s | 1位:%d円 / 2位:%d円 / 3位:%d円",
+			race.Name, difficulty, race.Grade.Prize(), race.Grade.Prize()/2, race.Grade.Prize()/4), 100, 530, ColorWhite)
 	}
 
-	ebitenutil.DebugPrintAt(screen, "↑↓: 選択  |  Enter: 出走  |  Esc: 戻る", 270, 570)
+	DrawTextCentered(screen, "↑↓: 選択  |  Enter: 出走  |  Esc: 戻る", 400, 575, 12, ColorLightGray)
 }
 
 // === レース画面 ===
@@ -747,7 +678,7 @@ func (g *Game) updateRace() {
 }
 
 func (g *Game) drawRace(screen *ebiten.Image) {
-	// 背景（観客席風）
+	// 背景
 	screen.Fill(color.RGBA{100, 149, 237, 255})
 	vector.DrawFilledRect(screen, 0, 100, 800, 350, ColorGreen, false)
 
@@ -755,80 +686,78 @@ func (g *Game) drawRace(screen *ebiten.Image) {
 	vector.DrawFilledRect(screen, 30, 130, 740, 300, ColorDarkBrown, false)
 	vector.DrawFilledRect(screen, 40, 140, 720, 280, ColorBrown, false)
 
-	// レーン区切り線
+	// レーン線
 	for i := 0; i < 9; i++ {
 		y := float32(140 + i*35)
-		vector.DrawFilledRect(screen, 40, y, 720, 1, color.RGBA{255, 255, 255, 100}, false)
+		vector.DrawFilledRect(screen, 40, y, 720, 1, color.RGBA{255, 255, 255, 80}, false)
 	}
 
-	// レース情報ヘッダー
-	vector.DrawFilledRect(screen, 0, 0, 800, 90, ColorPanelBg, false)
-	vector.DrawFilledRect(screen, 0, 88, 800, 2, ColorGold, false)
+	// ヘッダー
+	vector.DrawFilledRect(screen, 0, 0, 800, 95, ColorPanelBg, false)
+	vector.DrawFilledRect(screen, 0, 93, 800, 2, ColorGold, false)
 
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("【 %s 】", g.raceState.Race.Name), 320, 15)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("グレード: %s  |  距離: %dm  |  賞金: %d円",
-		g.raceState.Race.Grade, g.raceState.Race.Distance, g.raceState.Race.Grade.Prize()), 200, 45)
+	DrawTextCentered(screen, fmt.Sprintf("【 %s 】", g.raceState.Race.Name), 400, 15, 24, ColorGold)
+	DrawTextCentered(screen, fmt.Sprintf("グレード: %s  |  距離: %dm  |  賞金: %d円",
+		g.raceState.Race.Grade, g.raceState.Race.Distance, g.raceState.Race.Grade.Prize()), 400, 50, 14, ColorWhite)
 
-	// 現在順位
 	playerRank := g.raceState.GetPlayerRank()
+	rankColor := ColorWhite
 	rankText := fmt.Sprintf("%d位", playerRank)
 	if playerRank <= 3 {
 		rankText += " 入賞圏内！"
+		rankColor = ColorGold
 	}
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("あなたの馬: %s", rankText), 300, 70)
+	DrawTextCentered(screen, fmt.Sprintf("あなたの馬: %s", rankText), 400, 75, 16, rankColor)
 
 	// 馬を描画
 	for i, entry := range g.raceState.Entries {
 		y := float32(150 + i*35)
 		x := float32(50 + entry.Position*6.5)
 
-		// 馬の色
 		horseColor := ColorBrown
 		if entry.Horse.IsPlayer {
 			horseColor = ColorGold
 		}
 
-		// 馬を描画
 		g.drawHorseSprite(screen, x, y, horseColor)
 
-		// 名前（プレイヤーの馬は強調）
 		nameStr := entry.Horse.Name
 		if entry.Horse.IsPlayer {
 			nameStr = "★" + nameStr
 		}
-		// 名前の背景
-		vector.DrawFilledRect(screen, x-5, y-18, float32(len(nameStr)*7+10), 14, color.RGBA{0, 0, 0, 150}, false)
-		ebitenutil.DebugPrintAt(screen, nameStr, int(x), int(y)-17)
+		vector.DrawFilledRect(screen, x-5, y-20, float32(len(nameStr)*8+10), 18, color.RGBA{0, 0, 0, 180}, false)
+		DrawText(screen, nameStr, float64(x), float64(y)-18, ColorWhite)
 	}
 
 	// ゴールライン
 	vector.DrawFilledRect(screen, 720, 130, 8, 300, ColorWhite, false)
-	vector.DrawFilledRect(screen, 720, 130, 8, 10, ColorRed, false)
-	vector.DrawFilledRect(screen, 720, 150, 8, 10, ColorRed, false)
-	vector.DrawFilledRect(screen, 720, 170, 8, 10, ColorRed, false)
-	ebitenutil.DebugPrintAt(screen, "GOAL", 715, 115)
+	for i := 0; i < 15; i++ {
+		if i%2 == 0 {
+			vector.DrawFilledRect(screen, 720, float32(130+i*20), 8, 20, ColorRed, false)
+		}
+	}
+	DrawText(screen, "GOAL", 715, 110, ColorWhite)
 
 	// フッター
 	vector.DrawFilledRect(screen, 0, 450, 800, 150, ColorPanelBg, false)
-	ebitenutil.DebugPrintAt(screen, "実況: レースが進行中です！各馬のポジション争いが激化！", 150, 470)
+	DrawText(screen, "実況: レースが進行中です！各馬のポジション争いが激化！", 150, 475, ColorWhite)
 
 	if g.raceState.IsFinished {
-		// 終了オーバーレイ
 		vector.DrawFilledRect(screen, 0, 0, 800, 600, color.RGBA{0, 0, 0, 150}, false)
-		drawPanel(screen, 200, 200, 400, 150)
-		ebitenutil.DebugPrintAt(screen, "━━━ レース終了！ ━━━", 305, 230)
+		DrawPanel(screen, 200, 200, 400, 150)
+		DrawTextCentered(screen, "レース終了！", 400, 240, 24, ColorGold)
 
 		playerEntry := g.raceState.GetPlayerEntry()
 		if playerEntry != nil {
 			resultText := fmt.Sprintf("%s は %d位！", g.playerHorse.Name, playerEntry.Rank)
 			if playerEntry.Rank == 1 {
-				resultText += " おめでとう！"
+				resultText += " 優勝！"
 			} else if playerEntry.Rank <= 3 {
 				resultText += " 入賞！"
 			}
-			ebitenutil.DebugPrintAt(screen, resultText, 250, 270)
+			DrawTextCentered(screen, resultText, 400, 280, 18, ColorWhite)
 		}
-		ebitenutil.DebugPrintAt(screen, "[ ENTER で結果確認 ]", 300, 320)
+		DrawTextCentered(screen, "[ ENTER で結果確認 ]", 400, 320, 14, ColorLightGray)
 	}
 }
 
@@ -861,36 +790,30 @@ func (g *Game) updateRaceResult() {
 
 func (g *Game) drawRaceResult(screen *ebiten.Image) {
 	screen.Fill(ColorDarkGreen)
-	drawPanel(screen, 100, 50, 600, 500)
+	DrawPanel(screen, 100, 50, 600, 500)
 
-	ebitenutil.DebugPrintAt(screen, "╔════════════════════════════════════════════╗", 140, 70)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("║          %s  結果発表          ║", g.raceState.Race.Name), 140, 85)
-	ebitenutil.DebugPrintAt(screen, "╚════════════════════════════════════════════╝", 140, 100)
+	DrawTextCentered(screen, fmt.Sprintf("%s  結果発表", g.raceState.Race.Name), 400, 80, 24, ColorGold)
 
-	// 上位入賞を強調
-	ebitenutil.DebugPrintAt(screen, "順位    馬名                  賞金", 180, 130)
-	ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", 160, 145)
+	DrawText(screen, "順位    馬名                    賞金", 160, 120, ColorLightGray)
 
 	for i, entry := range g.raceState.Results {
-		y := float32(160 + i*35)
+		y := float32(150 + i*38)
 
-		// 入賞は背景色を付ける
 		if entry.Rank <= 3 {
 			bgColor := color.RGBA{80, 60, 40, 200}
 			if entry.Rank == 1 {
-				bgColor = color.RGBA{255, 215, 0, 100}
+				bgColor = color.RGBA{255, 215, 0, 80}
 			} else if entry.Rank == 2 {
-				bgColor = color.RGBA{192, 192, 192, 100}
+				bgColor = color.RGBA{192, 192, 192, 80}
 			} else if entry.Rank == 3 {
-				bgColor = color.RGBA{205, 127, 50, 100}
+				bgColor = color.RGBA{205, 127, 50, 80}
 			}
-			vector.DrawFilledRect(screen, 150, y, 500, 30, bgColor, false)
+			vector.DrawFilledRect(screen, 140, y, 520, 33, bgColor, false)
 		}
 
-		// プレイヤーの馬を強調
 		if entry.Horse.IsPlayer {
-			vector.DrawFilledRect(screen, 148, y-2, 504, 34, ColorGold, false)
-			vector.DrawFilledRect(screen, 150, y, 500, 30, ColorDarkBrown, false)
+			vector.DrawFilledRect(screen, 138, y-2, 524, 37, ColorGold, false)
+			vector.DrawFilledRect(screen, 140, y, 520, 33, ColorDarkBrown, false)
 		}
 
 		marker := ""
@@ -907,29 +830,24 @@ func (g *Game) drawRaceResult(screen *ebiten.Image) {
 			prize = fmt.Sprintf("+%d円", g.raceState.Race.Grade.Prize()/4)
 		}
 
-		rankStr := fmt.Sprintf("%d位", entry.Rank)
-		if entry.Rank == 1 {
-			rankStr = "1位"
-		}
-
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf(" %s  %s%-16s  %s",
-			rankStr, marker, entry.Horse.Name, prize), 160, int(y)+5)
+		DrawText(screen, fmt.Sprintf(" %d位  %s%-14s    %s",
+			entry.Rank, marker, entry.Horse.Name, prize), 160, float64(y)+8, ColorWhite)
 	}
 
-	// プレイヤーの結果サマリー
+	// プレイヤー結果
 	playerEntry := g.raceState.GetPlayerEntry()
 	if playerEntry != nil {
-		vector.DrawFilledRect(screen, 150, 480, 500, 50, color.RGBA{0, 0, 0, 150}, false)
+		vector.DrawFilledRect(screen, 140, 485, 520, 45, color.RGBA{0, 0, 0, 150}, false)
 		resultMsg := fmt.Sprintf("あなたの馬「%s」は %d位でした！", g.playerHorse.Name, playerEntry.Rank)
 		if playerEntry.Rank == 1 {
 			resultMsg += " 優勝おめでとう！"
 		} else if playerEntry.Rank <= 3 {
 			resultMsg += " 入賞！賞金獲得！"
 		}
-		ebitenutil.DebugPrintAt(screen, resultMsg, 170, 495)
+		DrawTextCentered(screen, resultMsg, 400, 500, 16, ColorWhite)
 	}
 
-	ebitenutil.DebugPrintAt(screen, "[ ENTER でメインに戻る ]", 300, 540)
+	DrawTextCentered(screen, "[ ENTER でメインに戻る ]", 400, 540, 14, ColorLightGray)
 }
 
 // === ゲームオーバー画面 ===
@@ -941,60 +859,55 @@ func (g *Game) updateGameOver() {
 
 func (g *Game) drawGameOver(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{20, 20, 40, 255})
-	drawPanel(screen, 100, 50, 600, 500)
+	DrawPanel(screen, 100, 50, 600, 500)
 
-	ebitenutil.DebugPrintAt(screen, "╔════════════════════════════════════════════╗", 140, 70)
-	ebitenutil.DebugPrintAt(screen, "║            ゲ ー ム 終 了                  ║", 140, 85)
-	ebitenutil.DebugPrintAt(screen, "║          3年間の育成が終わりました          ║", 140, 100)
-	ebitenutil.DebugPrintAt(screen, "╚════════════════════════════════════════════╝", 140, 115)
+	DrawTextCentered(screen, "ゲ ー ム 終 了", 400, 85, 28, ColorGold)
+	DrawTextCentered(screen, "3年間の育成が終わりました", 400, 120, 16, ColorLightGray)
 
 	if g.playerHorse != nil {
-		// 馬のASCIIアート
-		ebitenutil.DebugPrintAt(screen, "       ,--,", 340, 150)
-		ebitenutil.DebugPrintAt(screen, "      (o o)", 340, 165)
-		ebitenutil.DebugPrintAt(screen, " /---( )--/\\", 340, 180)
-		ebitenutil.DebugPrintAt(screen, " `===(_)=(_)~", 340, 195)
+		DrawTextCentered(screen, fmt.Sprintf("愛馬: 【 %s 】", g.playerHorse.Name), 400, 170, 20, ColorWhite)
 
-		ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━", 250, 220)
-
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("愛馬: 【 %s 】", g.playerHorse.Name), 280, 250)
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("最終年齢: %d歳", g.playerHorse.Age), 300, 280)
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("最終戦績: %d戦 %d勝", g.playerHorse.Races, g.playerHorse.Wins), 300, 310)
+		DrawText(screen, fmt.Sprintf("最終年齢: %d歳", g.playerHorse.Age), 280, 210, ColorWhite)
+		DrawText(screen, fmt.Sprintf("最終戦績: %d戦 %d勝", g.playerHorse.Races, g.playerHorse.Wins), 280, 245, ColorWhite)
 
 		winRate := 0.0
 		if g.playerHorse.Races > 0 {
 			winRate = float64(g.playerHorse.Wins) / float64(g.playerHorse.Races) * 100
 		}
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("勝率: %.1f%%", winRate), 300, 340)
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("最終資金: %d円", g.money), 300, 370)
+		DrawText(screen, fmt.Sprintf("勝率: %.1f%%", winRate), 280, 280, ColorWhite)
+		DrawText(screen, fmt.Sprintf("最終資金: %d円", g.money), 280, 315, ColorGold)
 
 		// 評価
-		ebitenutil.DebugPrintAt(screen, "━━━━━━━━━━━━━━━━━━━━━━━━━━", 250, 400)
 		var rating string
 		var ratingDesc string
+		ratingColor := ColorWhite
 		if g.playerHorse.Wins >= 10 {
 			rating = "【 伝説の名馬 】"
 			ratingDesc = "歴史に名を刻む偉業を達成！"
+			ratingColor = ColorGold
 		} else if g.playerHorse.Wins >= 5 {
 			rating = "【 名馬 】"
 			ratingDesc = "素晴らしい活躍でした！"
+			ratingColor = ColorGold
 		} else if g.playerHorse.Wins >= 3 {
 			rating = "【 優秀 】"
 			ratingDesc = "立派な成績です！"
+			ratingColor = ColorGreen
 		} else if g.playerHorse.Wins >= 1 {
 			rating = "【 及第点 】"
 			ratingDesc = "勝利の喜びを味わえました"
+			ratingColor = ColorLightGray
 		} else {
 			rating = "【 発展途上 】"
 			ratingDesc = "次こそは頑張りましょう..."
+			ratingColor = ColorRed
 		}
-		ebitenutil.DebugPrintAt(screen, rating, 330, 430)
-		ebitenutil.DebugPrintAt(screen, ratingDesc, 290, 460)
+		DrawTextCentered(screen, rating, 400, 380, 24, ratingColor)
+		DrawTextCentered(screen, ratingDesc, 400, 420, 16, ColorWhite)
 	}
 
-	// 点滅
 	if (g.animationTick/30)%2 == 0 {
-		ebitenutil.DebugPrintAt(screen, "[ ENTER でもう一度プレイ ]", 290, 520)
+		DrawTextCentered(screen, "[ ENTER でもう一度プレイ ]", 400, 500, 16, ColorGold)
 	}
 }
 
